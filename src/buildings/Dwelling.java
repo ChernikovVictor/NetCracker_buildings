@@ -1,46 +1,46 @@
 package buildings;
 
-public class Dwelling
+public class Dwelling implements Building
 {
-    DwellingFloor[] floors;
+    Floor[] floors;
 
     public Dwelling(int floorsCount, int ... flatsCount)
     {
-        floors = new DwellingFloor[floorsCount];
+        floors = new Floor[floorsCount];
         for(int i = 0; i < floorsCount; i++)
             floors[i] = new DwellingFloor(flatsCount[i]);
     }
 
-    public Dwelling(DwellingFloor[] floors) { this.floors = floors; }
+    public Dwelling(Floor ... floors) { this.floors = floors; }
 
-    public int floorsCount() { return floors.length; }
-    public DwellingFloor[] getFloors() { return floors; }
-    public DwellingFloor getFloor(int index) { return floors[index]; }
-    public void setFloor(int index, DwellingFloor floor) { floors[index] = floor; }
+    public int floorCount() { return floors.length; }
+    public Floor[] getFloorArray() { return floors; }
+    public Floor getFloor(int index) { return floors[index]; }
+    public void setFloor(int index, Floor floor) { floors[index] = floor; }
 
     // число всех квартир дома
-    public int flatsCount()
+    public int spaceCount()
     {
         int result = 0;
-        for(DwellingFloor floor : floors)
-            result += floor.flatsCount();
+        for(Floor floor : floors)
+            result += floor.spaceCount();
         return result;
     }
 
     // общая площадь всех квартир дома
-    public int totalFlatsArea()
+    public int totalSpaceArea()
     {
         int result = 0;
-        for(DwellingFloor floor : floors)
-            result += floor.totalFlatsArea();
+        for(Floor floor : floors)
+            result += floor.totalSpaceArea();
         return result;
     }
 
     // общее число комнат в доме
-    public int roomsCount()
+    public int totalRoomsCount()
     {
         int result = 0;
-        for(DwellingFloor floor : floors)
+        for(Floor floor : floors)
         {
             result += floor.totalRoomsCount();
         }
@@ -51,78 +51,78 @@ public class Dwelling
     private int[] getIndexFloorAndFlat(int indexFlat)
     {
         int indexFloor = 0;
-        while (indexFlat >= floors[indexFloor].flatsCount())
+        while (indexFlat >= floors[indexFloor].spaceCount())
         {
-            indexFlat -= floors[indexFloor].flatsCount();
+            indexFlat -= floors[indexFloor].spaceCount();
             indexFloor++;
         }
         return new int[] {indexFloor, indexFlat};
     }
 
-    public Flat getFlat(int index)
+    public Space getSpace(int index)
     {
         int[] indexFloorAndFlat = getIndexFloorAndFlat(index);
-        return floors[indexFloorAndFlat[0]].getFlat(indexFloorAndFlat[1]);
+        return floors[indexFloorAndFlat[0]].getSpace(indexFloorAndFlat[1]);
     }
 
-    public void setFlat(int index, Flat flat)
+    public void setSpace(int index, Space space)
     {
         int[] indexFloorAndFlat = getIndexFloorAndFlat(index);
-        floors[indexFloorAndFlat[0]].setFlat(indexFloorAndFlat[1], flat);
+        floors[indexFloorAndFlat[0]].setSpace(indexFloorAndFlat[1], space);
     }
 
-    public void addFlat(int index, Flat flat)
+    public void addSpace(int index, Space space)
     {
         int[] indexFloorAndFlat = getIndexFloorAndFlat(index);
-        floors[indexFloorAndFlat[0]].addFlat(indexFloorAndFlat[1], flat);
+        floors[indexFloorAndFlat[0]].addSpace(indexFloorAndFlat[1], space);
     }
 
-    public void removeFlat(int index)
+    public void removeSpace(int index)
     {
         int[] indexFloorAndFlat = getIndexFloorAndFlat(index);
-        floors[indexFloorAndFlat[0]].removeFlat(indexFloorAndFlat[1]);
+        floors[indexFloorAndFlat[0]].removeSpace(indexFloorAndFlat[1]);
     }
 
     // Наибольшая по площади квартира в доме
-    public Flat getBestSpace()
+    public Space getBestSpace()
     {
-        Flat result = floors[0].getBestSpace();
+        Space result = floors[0].getBestSpace();
         for(int i = 1; i < floors.length; i++)
         {
-            Flat flat = floors[i].getBestSpace();
-            if (result.getArea() < flat.getArea())
-                result = flat;
+            Space space = floors[i].getBestSpace();
+            if (result.getArea() < space.getArea())
+                result = space;
         }
         return result;
     }
 
     // получение массива всех квартир в доме
-    public Flat[] getFlats()
+    public Space[] getSpaces()
     {
-        Flat[] flats = new Flat[flatsCount()];
+        Space[] spaces = new Space[spaceCount()];
         int index = 0;
-        for(DwellingFloor floor : floors)
+        for(Floor floor : floors)
         {
-            Flat[] flatsOnFloor = floor.getFlats();
+            Space[] flatsOnFloor = floor.getSpaceArray();
             for(int i = 0; i < flatsOnFloor.length; i++)
             {
-                flats[index] = flatsOnFloor[i];
+                spaces[index] = flatsOnFloor[i];
                 index++;
             }
         }
-        return flats;
+        return spaces;
     }
 
     // получить отсортированный по убыванию площадей массив квартир
-    public Flat[] sortedFlats()
+    public Space[] sortedSpaceArray()
     {
-        Flat[] flats = getFlats();
-        qSort(flats, 0, flats.length - 1);
-        return flats;
+        Space[] spaces = getSpaces();
+        qSort(spaces, 0, spaces.length - 1);
+        return spaces;
     }
 
     // быстрая сортировка
-    private void qSort(Flat[] flats, int left, int right)
+    private void qSort(Space[] flats, int left, int right)
     {
         int i = left, j = right;
         int middle = flats[(i + j) / 2].getArea();
@@ -134,7 +134,7 @@ public class Dwelling
                 j--;
             if (i <= j)
             {
-                Flat buffer = flats[i];
+                Space buffer = flats[i];
                 flats[i] = flats[j];
                 flats[j] = buffer;
                 i++;

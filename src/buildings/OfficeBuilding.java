@@ -2,7 +2,7 @@ package buildings;
 
 import buildings.exceptions.*;
 
-public class OfficeBuilding
+public class OfficeBuilding implements Building
 {
     private List floors;
 
@@ -20,49 +20,49 @@ public class OfficeBuilding
     }
 
     // конструктор по массиву колличества офисов по этажам
-    public OfficeBuilding(int[] array)
+    public OfficeBuilding(int ... array)
     {
         floors = new List(array);
     }
 
     // конструктор по массиву офисных этажей
-    public OfficeBuilding(OfficeFloor[] array)
+    public OfficeBuilding(Floor ... array)
     {
         floors = new List(array);
     }
 
     // колличество этажей в здании
-    public int floorsCount()
+    public int floorCount()
     {
         return floors.length();
     }
 
     // колличество офисов в здании
-    public int officesCount()
+    public int spaceCount()
     {
         return floors.officesCount();
     }
 
     // общая площадь помещений здания
-    public int Area()
+    public int totalSpaceArea()
     {
         return floors.totalFloorsArea();
     }
 
     // общее колличество комнат здания
-    public int roomsCount()
+    public int totalRoomsCount()
     {
         return floors.floorRoomsCount();
     }
 
     // получить массив этажей здания
-    public OfficeFloor[] getFloorsArray()
+    public Floor[] getFloorArray()
     {
         return floors.convertToArray();
     }
 
     // получить этаж по номеру в здании
-    public OfficeFloor getFloor(int index)
+    public Floor getFloor(int index)
     {
         try
         {
@@ -76,11 +76,11 @@ public class OfficeBuilding
     }
 
     // изменить этаж по номеру в здании
-    public void setFloor(int index, OfficeFloor officeFloor)
+    public void setFloor(int index, Floor floor)
     {
         try
         {
-            floors.setFloor(index, officeFloor);
+            floors.setFloor(index, floor);
         }
         catch (FloorIndexOutOfBoundsException e)
         {
@@ -89,11 +89,11 @@ public class OfficeBuilding
     }
 
     // получить офис по номеру в здании
-    public Office getOffice(int index)
+    public Space getSpace(int index)
     {
         try
         {
-            return floors.getOffice(index);
+            return floors.getSpace(index);
         }
         catch (SpaceIndexOutOfBoundsException e)
         {
@@ -103,11 +103,11 @@ public class OfficeBuilding
     }
 
     // изменить офис по номеру в здании
-    public void setOffice(int index, Office office)
+    public void setSpace(int index, Space space)
     {
         try
         {
-            floors.setOffice(index, office);
+            floors.setSpace(index, space);
         }
         catch (SpaceIndexOutOfBoundsException e)
         {
@@ -116,11 +116,11 @@ public class OfficeBuilding
     }
 
     // добавить офис по номеру в здании
-    public void addOffice(int index, Office office)
+    public void addSpace(int index, Space space)
     {
         try
         {
-            floors.addOffice(index, office);
+            floors.addSpace(index, space);
         }
         catch (SpaceIndexOutOfBoundsException e)
         {
@@ -129,11 +129,11 @@ public class OfficeBuilding
     }
 
     // удалить офис по номеру в здании
-    public void removeOffice(int index)
+    public void removeSpace(int index)
     {
         try
         {
-            floors.removeOffice(index);
+            floors.removeSpace(index);
         }
         catch (SpaceIndexOutOfBoundsException e)
         {
@@ -142,11 +142,11 @@ public class OfficeBuilding
     }
 
     // наибольший по площади офис здания
-    public Office getBestSpace()
+    public Space getBestSpace()
     {
         try
         {
-            return floors.maxAreaOffice();
+            return floors.maxAreaSpace();
         }
         catch (FloorIndexOutOfBoundsException e)
         {
@@ -156,39 +156,39 @@ public class OfficeBuilding
     }
 
     // получить массив всех офисов в здании
-    public Office[] getOffices(){ return floors.getOffices(); }
+    public Space[] getSpaces(){ return floors.getSpaces(); }
 
     // получить отсортированный по убыванию площадей массив офисов
-    public Office[] sortedOffices()
+    public Space[] sortedSpaceArray()
     {
-        Office[] offices = floors.getOffices();
-        qSort(offices, 0, offices.length - 1);
-        return offices;
+        Space[] spaces = floors.getSpaces();
+        qSort(spaces, 0, spaces.length - 1);
+        return spaces;
     }
 
     // быстрая сортировка
-    private void qSort(Office[] offices, int left, int right)
+    private void qSort(Space[] spaces, int left, int right)
     {
         int i = left, j = right;
-        int middle = offices[(i + j) / 2].getArea();
+        int middle = spaces[(i + j) / 2].getArea();
         do
         {
-            while (offices[i].getArea() > middle)
+            while (spaces[i].getArea() > middle)
                 i++;
-            while (offices[j].getArea() < middle)
+            while (spaces[j].getArea() < middle)
                 j--;
             if (i <= j)
             {
-                Office buffer = offices[i];
-                offices[i] = offices[j];
-                offices[j] = buffer;
+                Space buffer = spaces[i];
+                spaces[i] = spaces[j];
+                spaces[j] = buffer;
                 i++;
                 j--;
             }
         } while (i <= j);
         if (left < j)
-            this.qSort(offices, left, j);
+            this.qSort(spaces, left, j);
         if (i < right)
-            this.qSort(offices, i, right);
+            this.qSort(spaces, i, right);
     }
 }

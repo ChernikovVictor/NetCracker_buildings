@@ -42,9 +42,9 @@ public class SimplyList
     }
 
     // добавить несколько элементов в конец списка
-    public void addRange(Office ... offices)
+    public void addRange(Space ... spaces)
     {
-        if (offices == null)
+        if (spaces == null)
         {
             head = null;
             return;
@@ -53,9 +53,9 @@ public class SimplyList
         {
             SimplyNode currentNode = new SimplyNode();
             head = currentNode;
-            for(Office office : offices)
+            for(Space space : spaces)
             {
-                currentNode.next = new SimplyNode(office);
+                currentNode.next = new SimplyNode(space);
                 currentNode = currentNode.next;
             }
             currentNode.next = head.next;
@@ -66,9 +66,9 @@ public class SimplyList
             SimplyNode currentNode = head;
             while(currentNode.next != head)
                 currentNode = currentNode.next;
-            for(Office office : offices)
+            for(Space space : spaces)
             {
-                currentNode.next = new SimplyNode(office);
+                currentNode.next = new SimplyNode(space);
                 currentNode = currentNode.next;
             }
             currentNode.next = head;
@@ -96,11 +96,11 @@ public class SimplyList
         if (head == null)
             return 0;
         SimplyNode currentNode = head;
-        int area = head.office.getArea();
+        int area = head.space.getArea();
         while (currentNode.next != head)
         {
             currentNode = currentNode.next;
-            area += currentNode.office.getArea();
+            area += currentNode.space.getArea();
         }
         return area;
     }
@@ -111,31 +111,31 @@ public class SimplyList
         if (head == null)
             return 0;
         SimplyNode currentNode = head;
-        int count = head.office.getRoomsCount();
+        int count = head.space.getRoomsCount();
         while (currentNode.next != head)
         {
             currentNode = currentNode.next;
-            count += currentNode.office.getRoomsCount();
+            count += currentNode.space.getRoomsCount();
         }
         return count;
     }
 
     // получить массив офисов этажа
-    public Office[] convertToArray()
+    public Space[] convertToArray()
     {
         if (head == null)
             return null;
-        Office[] offices = new Office[length()];
+        Space[] spaces = new Space[length()];
         SimplyNode currentNode = head;
         int i = 0;
-        offices[i] = head.office;
+        spaces[i] = head.space;
         while (currentNode.next != head)
         {
             currentNode = currentNode.next;
             i++;
-            offices[i] = currentNode.office;
+            spaces[i] = currentNode.space;
         }
-        return offices;
+        return spaces;
     }
 
     // получение офиса по номеру на этаже
@@ -154,7 +154,7 @@ public class SimplyList
     }
 
     // изменить офис по номеру в списке
-    public void setOffice(int index, Office office)
+    public void setNode(int index, Space space)
     {
         if (index < 0 || index >= this.length())
             throw new SpaceIndexOutOfBoundsException();
@@ -165,15 +165,15 @@ public class SimplyList
             currentNode = currentNode.next;
             i++;
         }
-        currentNode.office = office;
+        currentNode.space = space;
     }
 
     // добавить офис по номеру в списке
-    public void addNode(int index, Office office)
+    public void addNode(int index, Space space)
     {
         if (index < 0 || index >= this.length())
             throw new SpaceIndexOutOfBoundsException();
-        SimplyNode node = new SimplyNode(office);
+        SimplyNode node = new SimplyNode(space);
         if (index == 0)
         {
             SimplyNode currentNode = head.next;
@@ -224,17 +224,17 @@ public class SimplyList
     }
 
     // наибольший по площади офис этажа
-    public Office maxAreaOffice()
+    public Space maxAreaOffice()
     {
         if (head == null)
             throw new SpaceIndexOutOfBoundsException("Список офисов пуст");
-        Office result = head.office;
+        Space result = head.space;
         SimplyNode currentNode = head;
         while(currentNode.next != head)
         {
             currentNode = currentNode.next;
-            if (currentNode.office.getArea() > result.getArea())
-                result = currentNode.office;
+            if (currentNode.space.getArea() > result.getArea())
+                result = currentNode.space;
         }
         return result;
     }

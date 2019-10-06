@@ -1,6 +1,6 @@
 package buildings;
 
-public class Flat
+public class Flat implements Space
 {
     private final int DEFAULT_ROOMS_COUNT = 2;
     private final int DEFAULT_AREA = 50;

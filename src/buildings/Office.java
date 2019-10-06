@@ -2,7 +2,7 @@ package buildings;
 
 import buildings.exceptions.*;
 
-public class Office
+public class Office implements Space
 {
     private final int DEFAULT_ROOMS_COUNT = 1;
     private final int DEFAULT_AREA = 250;

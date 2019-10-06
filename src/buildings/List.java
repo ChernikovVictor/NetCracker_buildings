@@ -25,7 +25,7 @@ public class List
     }
 
     // конструктор по массиву колличества офисов по этажам
-    public List(int[] array)
+    public List(int ... array)
     {
         head = new Node(array[0]);
         Node currentNode = head;
@@ -40,7 +40,7 @@ public class List
     }
 
     // конструктор по массиву офисных этажей
-    public List(OfficeFloor[] array)
+    public List(Floor ... array)
     {
         head = new Node(array[0]);
         Node currentNode = head;
@@ -75,11 +75,11 @@ public class List
         if (head == null)
             return 0;
         Node currentNode = head;
-        int count = head.officeFloor.officesCount();
+        int count = head.floor.spaceCount();
         while (currentNode.next != head)
         {
             currentNode = currentNode.next;
-            count += currentNode.officeFloor.officesCount();
+            count += currentNode.floor.spaceCount();
         }
         return count;
     }
@@ -90,11 +90,11 @@ public class List
         if (head == null)
             return 0;
         Node currentNode = head;
-        int area = head.officeFloor.totalOfficesArea();
+        int area = head.floor.totalSpaceArea();
         while (currentNode.next != head)
         {
             currentNode = currentNode.next;
-            area += currentNode.officeFloor.totalOfficesArea();
+            area += currentNode.floor.totalSpaceArea();
         }
         return area;
     }
@@ -105,35 +105,35 @@ public class List
         if (head == null)
             return 0;
         Node currentNode = head;
-        int count = head.officeFloor.totalOfficesRooms();
+        int count = head.floor.totalRoomsCount();
         while (currentNode.next != head)
         {
             currentNode = currentNode.next;
-            count += currentNode.officeFloor.totalOfficesRooms();
+            count += currentNode.floor.totalRoomsCount();
         }
         return count;
     }
 
     // получить массив этажей здания
-    public OfficeFloor[] convertToArray()
+    public Floor[] convertToArray()
     {
         if (head == null)
             return null;
-        OfficeFloor[] floors = new OfficeFloor[length()];
+        Floor[] floors = new Floor[length()];
         Node currentNode = head;
         int i = 0;
-        floors[i] = head.officeFloor;
+        floors[i] = head.floor;
         while (currentNode.next != head)
         {
             currentNode = currentNode.next;
             i++;
-            floors[i] = currentNode.officeFloor;
+            floors[i] = currentNode.floor;
         }
         return floors;
     }
 
     // получить этаж по номеру в здании
-    public OfficeFloor getFloor(int index)
+    public Floor getFloor(int index)
     {
         if (index < 0 || index >= this.length())
             throw new FloorIndexOutOfBoundsException();
@@ -144,11 +144,11 @@ public class List
             currentNode = currentNode.next;
             i++;
         }
-        return currentNode.officeFloor;
+        return currentNode.floor;
     }
 
     // изменить этаж по номеру в здании
-    public void setFloor(int index, OfficeFloor officeFloor)
+    public void setFloor(int index, Floor floor)
     {
         if (index < 0 || index >= this.length())
             throw new FloorIndexOutOfBoundsException();
@@ -159,7 +159,7 @@ public class List
             currentNode = currentNode.next;
             i++;
         }
-        currentNode.officeFloor = officeFloor;
+        currentNode.floor = floor;
     }
 
     // Получить номер этажа, на котором находится офис с номером indexOffice для здания, и номер этого офиса на этаже
@@ -168,9 +168,9 @@ public class List
         try
         {
             int indexFloor = 0;
-            while (indexOffice >= this.getFloor(indexFloor).officesCount())
+            while (indexOffice >= this.getFloor(indexFloor).spaceCount())
             {
-                indexOffice -= this.getFloor(indexFloor).officesCount();
+                indexOffice -= this.getFloor(indexFloor).spaceCount();
                 indexFloor++;
             }
             return new int[] {indexFloor, indexOffice};
@@ -182,66 +182,66 @@ public class List
     }
 
     // получить офис по номеру в здании
-    public Office getOffice(int index)
+    public Space getSpace(int index)
     {
         int[] indexFloorAndOffice = getIndexFloorAndOffice(index);
-        return getFloor(indexFloorAndOffice[0]).getOffice(indexFloorAndOffice[1]);
+        return getFloor(indexFloorAndOffice[0]).getSpace(indexFloorAndOffice[1]);
     }
 
     // изменить офис по номеру в здании
-    public void setOffice(int index, Office office)
+    public void setSpace(int index, Space space)
     {
         int[] indexFloorAndOffice = getIndexFloorAndOffice(index);
-        getFloor(indexFloorAndOffice[0]).setOffice(indexFloorAndOffice[1], office);
+        getFloor(indexFloorAndOffice[0]).setSpace(indexFloorAndOffice[1], space);
     }
 
     // добавить офис по номеру в здании
-    public void addOffice(int index, Office office)
+    public void addSpace(int index, Space space)
     {
         int[] indexFloorAndOffice = getIndexFloorAndOffice(index);
-        getFloor(indexFloorAndOffice[0]).addOffice(indexFloorAndOffice[1], office);
+        getFloor(indexFloorAndOffice[0]).addSpace(indexFloorAndOffice[1], space);
     }
 
     // удалить офис по номеру в здании
-    public void removeOffice(int index)
+    public void removeSpace(int index)
     {
         int[] indexFloorAndOffice = getIndexFloorAndOffice(index);
-        getFloor(indexFloorAndOffice[0]).removeOffice(indexFloorAndOffice[1]);
+        getFloor(indexFloorAndOffice[0]).removeSpace(indexFloorAndOffice[1]);
     }
 
     // наибольший по площади офис здания
-    public Office maxAreaOffice()
+    public Space maxAreaSpace()
     {
         if (head == null)
             throw new FloorIndexOutOfBoundsException("Список этажей пуст");
         Node currentNode = head;
-        Office result = head.officeFloor.getBestSpace();
+        Space result = head.floor.getBestSpace();
         while (currentNode.next != head)
         {
             currentNode = currentNode.next;
-            if (currentNode.officeFloor.getBestSpace().getArea() > result.getArea())
+            if (currentNode.floor.getBestSpace().getArea() > result.getArea())
             {
-                result = currentNode.officeFloor.getBestSpace();
+                result = currentNode.floor.getBestSpace();
             }
         }
         return result;
     }
 
     // получить массив всех офисов в здании
-    public Office[] getOffices()
+    public Space[] getSpaces()
     {
-        Office[] offices = new Office[this.officesCount()];
+        Space[] spaces = new Space[this.officesCount()];
         int index = 0;
-        OfficeFloor[] officeFloors = this.convertToArray();
-        for (int i = 0; i < officeFloors.length; i++)
+        Floor[] floors = this.convertToArray();
+        for (int i = 0; i < floors.length; i++)
         {
-            Office[] officesOnFloor = officeFloors[i].getOfficesArray();
-            for (int j = 0; j < officesOnFloor.length; j++)
+            Space[] spacesOnFloor = floors[i].getSpaceArray();
+            for (int j = 0; j < spacesOnFloor.length; j++)
             {
-                offices[index] = officesOnFloor[j];
+                spaces[index] = spacesOnFloor[j];
                 index++;
             }
         }
-        return offices;
+        return spaces;
     }
 }

@@ -3,7 +3,7 @@ package buildings;
 // Узел для односвязного списка офисов
 public class SimplyNode
 {
-    public Office office;
+    public Space space;
     public SimplyNode next;
 
     public SimplyNode()
@@ -11,14 +11,14 @@ public class SimplyNode
         this(new Office(), null);
     }
 
-    public SimplyNode(Office office)
+    public SimplyNode(Space space)
     {
-        this(office, null);
+        this(space, null);
     }
 
-    public SimplyNode(Office office, SimplyNode next)
+    public SimplyNode(Space space, SimplyNode next)
     {
-        this.office = office;
+        this.space = space;
         this.next = next;
     }
 }

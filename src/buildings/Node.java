@@ -3,19 +3,19 @@ package buildings;
 // Узел для двусвязного списка офисных этажей
 public class Node
 {
-    public OfficeFloor officeFloor;
+    public Floor floor;
     public Node next, previous;
 
     public Node() {}
 
-    public Node(OfficeFloor officeFloor)
+    public Node(Floor floor)
     {
-        this.officeFloor = officeFloor;
+        this.floor = floor;
     }
 
     // конструктор по колличеству офисов на этаже
     public Node(int count)
     {
-        officeFloor = new OfficeFloor(count);
+        floor = new OfficeFloor(count);
     }
 }
