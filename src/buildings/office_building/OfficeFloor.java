@@ -1,8 +1,12 @@
-package buildings;
+package buildings.office_building;
 
 import buildings.exceptions.*;
+import buildings.interfaces.Floor;
+import buildings.interfaces.Space;
 
-public class OfficeFloor implements Floor
+import java.io.Serializable;
+
+public class OfficeFloor implements Floor, Serializable
 {
     private SimplyList spaces;
 
@@ -20,7 +24,7 @@ public class OfficeFloor implements Floor
     }
 
     // конструктор по массиву офисов
-    public OfficeFloor(Space ... arrayOffices)
+    public OfficeFloor(Space... arrayOffices)
     {
         spaces = new SimplyList();
         spaces.addRange(arrayOffices);

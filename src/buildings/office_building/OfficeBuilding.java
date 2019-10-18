@@ -1,8 +1,13 @@
-package buildings;
+package buildings.office_building;
 
 import buildings.exceptions.*;
+import buildings.interfaces.Building;
+import buildings.interfaces.Floor;
+import buildings.interfaces.Space;
 
-public class OfficeBuilding implements Building
+import java.io.Serializable;
+
+public class OfficeBuilding implements Building, Serializable
 {
     private List floors;
 
@@ -26,7 +31,7 @@ public class OfficeBuilding implements Building
     }
 
     // конструктор по массиву офисных этажей
-    public OfficeBuilding(Floor ... array)
+    public OfficeBuilding(Floor... array)
     {
         floors = new List(array);
     }

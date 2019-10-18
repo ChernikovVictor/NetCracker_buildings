@@ -1,6 +1,11 @@
-package buildings;
+package buildings.dwelling_building;
 
-public class DwellingFloor implements Floor
+import buildings.interfaces.Floor;
+import buildings.interfaces.Space;
+
+import java.io.Serializable;
+
+public class DwellingFloor implements Floor, Serializable
 {
     private Space[] spaces;
     public Space[] getSpaceArray()

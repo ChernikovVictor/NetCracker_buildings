@@ -1,8 +1,11 @@
-package buildings;
+package buildings.office_building;
 
 import buildings.exceptions.*;
+import buildings.interfaces.Space;
 
-public class Office implements Space
+import java.io.Serializable;
+
+public class Office implements Space, Serializable
 {
     private final int DEFAULT_ROOMS_COUNT = 1;
     private final int DEFAULT_AREA = 250;

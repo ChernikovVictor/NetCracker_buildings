@@ -1,7 +1,11 @@
-package buildings;
+package buildings.office_building;
+
+import buildings.interfaces.Floor;
+
+import java.io.Serializable;
 
 // Узел для двусвязного списка офисных этажей
-public class Node
+public class Node implements Serializable
 {
     public Floor floor;
     public Node next, previous;

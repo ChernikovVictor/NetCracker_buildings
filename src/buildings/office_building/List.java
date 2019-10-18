@@ -1,9 +1,13 @@
-package buildings;
+package buildings.office_building;
 
 import buildings.exceptions.*;
+import buildings.interfaces.Floor;
+import buildings.interfaces.Space;
+
+import java.io.Serializable;
 
 // двусвязный циклический список офисных этажей
-public class List
+public class List implements Serializable
 {
     private Node head;
 
@@ -40,7 +44,7 @@ public class List
     }
 
     // конструктор по массиву офисных этажей
-    public List(Floor ... array)
+    public List(Floor... array)
     {
         head = new Node(array[0]);
         Node currentNode = head;

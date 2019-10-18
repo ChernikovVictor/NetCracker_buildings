@@ -1,9 +1,12 @@
-package buildings;
+package buildings.office_building;
 
 import buildings.exceptions.*;
+import buildings.interfaces.Space;
+
+import java.io.Serializable;
 
 // односвязный циклический список офисов
-public class SimplyList
+public class SimplyList implements Serializable
 {
     private SimplyNode head;
     public SimplyList(){}
@@ -42,7 +45,7 @@ public class SimplyList
     }
 
     // добавить несколько элементов в конец списка
-    public void addRange(Space ... spaces)
+    public void addRange(Space... spaces)
     {
         if (spaces == null)
         {

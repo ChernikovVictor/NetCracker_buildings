@@ -1,4 +1,4 @@
-package buildings;
+package buildings.interfaces;
 
 public interface Building
 {

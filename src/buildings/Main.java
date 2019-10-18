@@ -1,13 +1,21 @@
 package buildings;
 
+import buildings.dwelling_building.*;
+import buildings.interfaces.*;
+import buildings.office_building.*;
 import buildings.exceptions.*;
-
+import java.io.*;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args)
     {
-        /* task 2
+        task4();
+    }
+
+    private static void task2()
+    {
         Random rnd = new Random();
         int floorsCount = 3;
         int flatsCount = 3;
@@ -58,9 +66,11 @@ public class Main {
         for(Space flat : Flats)
         {
             System.out.println(flat);
-        }*/
+        }
+    }
 
-        /* task 3 (exceptions)
+    private static void task3Exceptions()
+    {
         Random rnd = new Random();
         int floorsCount = 3;
         int officeCount = 3;
@@ -143,9 +153,11 @@ public class Main {
         {
             officeBuilding.getSpace(0).setArea(-100);
         }
-        catch (InvalidSpaceAreaException e) { System.out.println("Ошибка: Некорректное значение площади"); }*/
+        catch (InvalidSpaceAreaException e) { System.out.println("Ошибка: Некорректное значение площади"); }
+    }
 
-        // task 3 (interfaces)
+    private static void task3Interfaces()
+    {
         System.out.println("Проверка interface:\nСоздадим два здания (офисное и жилое) с двумя этажами\n" +
                 "(жилым и офисным) с двумя помещениями (офисом и квартирой)");
         DwellingFloor dwellingFloor = new DwellingFloor(new Flat(), new Office());
@@ -162,5 +174,88 @@ public class Main {
         spaces = officeBuilding.getSpaces();
         for (Space space : spaces)
             System.out.println(space);
+    }
+
+    private static void task4()
+    {
+        // Создадим три здания, выведем их в System.out
+        Floor floor1 = new DwellingFloor(new Flat(1, 100), new Flat(2, 200));
+        Floor floor2 = new OfficeFloor(new Office(3,300));
+        Floor floor3 = new DwellingFloor(new Flat(4, 400), new Office(5, 500));
+        Building building1 = new Dwelling(floor1, floor2);
+        Building building2 = new Dwelling(floor1, floor3);
+        Building building3 = new OfficeBuilding(floor2, floor3);
+        OutputStreamWriter out = new OutputStreamWriter(System.out);
+        try
+        {
+            out.write("Создадим три здания, выведем их в System.out\n");
+            Buildings.writeBuilding(building1, out);
+            out.write('\n');
+            Buildings.writeBuilding(building2, out);
+            out.write('\n');
+            Buildings.writeBuilding(building3, out);
+            out.write("\nЗапишем в три файла: байтовый, текстовый, файл сериализации\n" +
+                    "Считаем здания обратно\n" +
+                    "Выведем считанные здания для сравнения в System.out\n");
+        }
+        catch (IOException e){ System.err.println(e.getMessage());}
+
+        // Запишем здания в три файла: байтовый, текстовый, файл сериализации
+        try(FileOutputStream out1 = new FileOutputStream("file.bin");
+            FileWriter out2 = new FileWriter("file.txt");
+            FileOutputStream out3 = new FileOutputStream("file.srz"))
+        {
+            Buildings.outputBuilding(building1, out1);
+            Buildings.writeBuilding(building2, out2);
+            Buildings.serializeBuilding(building3, out3);
+        }
+        catch (IOException e){ System.err.println(e.getMessage());}
+
+        // Считаем здания обратно
+        try(FileInputStream in1 = new FileInputStream("file.bin");
+            FileReader in2 = new FileReader("file.txt");
+            FileInputStream in3 = new FileInputStream("file.srz"))
+        {
+            building1 = Buildings.inputBuilding(in1);
+            building2 = Buildings.readBuilding(in2);
+            building3 = Buildings.deserializeBuilding(in3);
+        }
+        catch (IOException | ClassNotFoundException e) { System.err.println(e.getMessage()); }
+
+        // Выведем считанные здания для сравнения в System.out
+        try
+        {
+            Buildings.writeBuilding(building1, out);
+            out.write('\n');
+            Buildings.writeBuilding(building2, out);
+            out.write('\n');
+            Buildings.writeBuilding(building3, out);
+            out.flush();
+        }
+        catch (IOException e){ System.err.println(e.getMessage()); }
+
+        // проверка методов считвания и записи здания с помощью Formatter и Scanner
+        // запишем данные о первом здании в файл
+        try(FileWriter fout = new FileWriter("fileFormatter.txt"))
+        {
+            out.write("\nЗапишем и считаем первое здание с помощью методов, использующих Formatter и Scanner\n");
+            Buildings.writeBuildingFormat(building1, fout);
+        }
+        catch (IOException e) { System.err.println(e.getMessage()); }
+
+        // считаем данные из файла обратно
+        try(FileReader in = new FileReader("fileFormatter.txt"))
+        {
+            building1 = Buildings.readBuilding(new Scanner(in));
+        }
+        catch (IOException e) { System.err.println(e.getMessage()); }
+
+        // выведем в для System.out проверки
+        try
+        {
+            Buildings.writeBuildingFormat(building1, out);
+            out.flush();
+        }
+        catch (IOException e) { System.err.println(e.getMessage()); }
     }
 }

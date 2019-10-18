@@ -1,7 +1,11 @@
-package buildings;
+package buildings.office_building;
+
+import buildings.interfaces.Space;
+
+import java.io.Serializable;
 
 // Узел для односвязного списка офисов
-public class SimplyNode
+public class SimplyNode implements Serializable
 {
     public Space space;
     public SimplyNode next;

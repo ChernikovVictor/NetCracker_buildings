@@ -1,6 +1,10 @@
-package buildings;
+package buildings.dwelling_building;
 
-public class Flat implements Space
+import buildings.interfaces.Space;
+
+import java.io.Serializable;
+
+public class Flat implements Space, Serializable
 {
     private final int DEFAULT_ROOMS_COUNT = 2;
     private final int DEFAULT_AREA = 50;
