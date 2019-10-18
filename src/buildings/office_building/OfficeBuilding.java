@@ -49,7 +49,7 @@ public class OfficeBuilding implements Building, Serializable
     }
 
     // общая площадь помещений здания
-    public int totalSpaceArea()
+    public double totalSpaceArea()
     {
         return floors.totalFloorsArea();
     }
@@ -175,7 +175,7 @@ public class OfficeBuilding implements Building, Serializable
     private void qSort(Space[] spaces, int left, int right)
     {
         int i = left, j = right;
-        int middle = spaces[(i + j) / 2].getArea();
+        double middle = spaces[(i + j) / 2].getArea();
         do
         {
             while (spaces[i].getArea() > middle)

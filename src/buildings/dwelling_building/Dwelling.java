@@ -34,7 +34,7 @@ public class Dwelling implements Building, Serializable
     }
 
     // общая площадь всех квартир дома
-    public int totalSpaceArea()
+    public double totalSpaceArea()
     {
         int result = 0;
         for(Floor floor : floors)
@@ -131,7 +131,7 @@ public class Dwelling implements Building, Serializable
     private void qSort(Space[] flats, int left, int right)
     {
         int i = left, j = right;
-        int middle = flats[(i + j) / 2].getArea();
+        double middle = flats[(i + j) / 2].getArea();
         do
         {
             while (flats[i].getArea() > middle)

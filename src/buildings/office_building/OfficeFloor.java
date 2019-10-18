@@ -37,7 +37,7 @@ public class OfficeFloor implements Floor, Serializable
     }
 
     // общая площадь офисов этажа
-    public int totalSpaceArea()
+    public double totalSpaceArea()
     {
         return spaces.totalOfficesArea();
     }

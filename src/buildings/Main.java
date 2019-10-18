@@ -25,7 +25,7 @@ public class Main {
             dwellingFloors[i] = new DwellingFloor(flatsCount);
             for(int j = 0; j < flatsCount; j++)
             {
-                Flat flat = new Flat(1 + rnd.nextInt(4), rnd.nextInt(200));
+                Flat flat = new Flat(1 + rnd.nextInt(4), 1 + rnd.nextInt(200));
                 dwellingFloors[i].setSpace(j, flat);
             }
         }
@@ -80,7 +80,7 @@ public class Main {
             officeFloors[i] = new OfficeFloor(officeCount);
             for(int j = 0; j < officeCount; j++)
             {
-                Office office = new Office(1 + rnd.nextInt(4), rnd.nextInt(200));
+                Office office = new Office(1 + rnd.nextInt(4), 1 + rnd.nextInt(200));
                 officeFloors[i].setSpace(j, office);
             }
         }

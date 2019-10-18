@@ -28,9 +28,9 @@ public class DwellingFloor implements Floor, Serializable
     public int spaceCount() { return spaces.length; }
 
     // общая площадь всех квартир на этаже
-    public int totalSpaceArea()
+    public double totalSpaceArea()
     {
-        int area = 0;
+        double area = 0;
         for(Space space : spaces)
         {
             area += space.getArea();

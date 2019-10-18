@@ -8,10 +8,10 @@ import java.io.Serializable;
 public class Office implements Space, Serializable
 {
     private final int DEFAULT_ROOMS_COUNT = 1;
-    private final int DEFAULT_AREA = 250;
+    private final double DEFAULT_AREA = 250.0;
 
     private int roomsCount;
-    private int area;
+    private double area;
 
     public int getRoomsCount() { return roomsCount; }
     public void setRoomsCount (int value)
@@ -20,8 +20,8 @@ public class Office implements Space, Serializable
             throw new InvalidRoomsCountException();
         roomsCount = value;
     }
-    public int getArea() { return area; }
-    public void setArea(int value)
+    public double getArea() { return area; }
+    public void setArea(double value)
     {
         if (value <= 0)
             throw new InvalidSpaceAreaException();
@@ -34,7 +34,7 @@ public class Office implements Space, Serializable
         area = DEFAULT_AREA;
     }
 
-    public Office(int area)
+    public Office(double area)
     {
         if (area <= 0)
             throw new InvalidSpaceAreaException();
@@ -42,7 +42,7 @@ public class Office implements Space, Serializable
         this.area = area;
     }
 
-    public Office(int roomsCount, int area)
+    public Office(int roomsCount, double area)
     {
         if (roomsCount <= 0)
             throw new InvalidRoomsCountException();

@@ -89,12 +89,12 @@ public class List implements Serializable
     }
 
     // общая площадь помещений здания
-    public int totalFloorsArea()
+    public double totalFloorsArea()
     {
         if (head == null)
             return 0;
         Node currentNode = head;
-        int area = head.floor.totalSpaceArea();
+        double area = head.floor.totalSpaceArea();
         while (currentNode.next != head)
         {
             currentNode = currentNode.next;

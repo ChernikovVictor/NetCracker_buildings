@@ -94,12 +94,12 @@ public class SimplyList implements Serializable
     }
 
     // общая площадь офисов
-    public int totalOfficesArea()
+    public double totalOfficesArea()
     {
         if (head == null)
             return 0;
         SimplyNode currentNode = head;
-        int area = head.space.getArea();
+        double area = head.space.getArea();
         while (currentNode.next != head)
         {
             currentNode = currentNode.next;

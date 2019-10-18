@@ -3,7 +3,7 @@ package buildings.interfaces;
 public interface Floor
 {
     int spaceCount(); // число помещений на этаже
-    int totalSpaceArea();   // общая площадь помещений этажа
+    double totalSpaceArea();   // общая площадь помещений этажа
     int totalRoomsCount();  // колличество комнат помещений этажа
     Space[] getSpaceArray(); // получить массив помещений этажа
     Space getSpace(int index);

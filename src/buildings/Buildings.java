@@ -25,7 +25,7 @@ public class Buildings
             {
                 Space space = floor.getSpace(j);
                 output.writeInt(space.getRoomsCount());
-                output.writeInt(space.getArea());
+                output.writeDouble(space.getArea());
             }
         }
     }
@@ -42,7 +42,7 @@ public class Buildings
             floors[i] = new DwellingFloor(spaceCount);
             for(int j = 0; j < spaceCount; j++)
             {
-                floors[i].setSpace(j, new Flat(input.readInt(), input.readInt()));
+                floors[i].setSpace(j, new Flat(input.readInt(), input.readDouble()));
             }
         }
         return new Dwelling(floors);
@@ -85,7 +85,7 @@ public class Buildings
             for(int j = 0; j < spaceCount; j++)
             {
                 Space space = floor.getSpace(j);
-                formatter.format(" %d %d", space.getRoomsCount(), space.getArea());
+                formatter.format(" %d %.1f", space.getRoomsCount(), space.getArea());
             }
         }
         formatter.flush();
@@ -108,7 +108,7 @@ public class Buildings
                 streamTokenizer.nextToken();
                 int roomsCount = (int)streamTokenizer.nval;
                 streamTokenizer.nextToken();
-                int area = (int)streamTokenizer.nval;
+                double area = streamTokenizer.nval;
                 floors[i].setSpace(j, new Flat(roomsCount, area));
             }
         }
@@ -127,7 +127,7 @@ public class Buildings
             for(int j = 0; j < spaceCount; j++)
             {
                 int roomsCount = scanner.nextInt();
-                int area = scanner.nextInt();
+                double area = scanner.nextDouble();
                 floors[i].setSpace(j, new Flat(roomsCount, area));
             }
         }
@@ -147,6 +147,4 @@ public class Buildings
         ObjectInputStream input = new ObjectInputStream(in);
         return (Building)input.readObject();
     }
-
-
 }

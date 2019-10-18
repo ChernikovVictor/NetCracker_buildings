@@ -7,15 +7,15 @@ import java.io.Serializable;
 public class Flat implements Space, Serializable
 {
     private final int DEFAULT_ROOMS_COUNT = 2;
-    private final int DEFAULT_AREA = 50;
+    private final double DEFAULT_AREA = 50.0;
 
     private int roomsCount;
-    private int area;
+    private double area;
 
     public int getRoomsCount() { return roomsCount; }
     public void setRoomsCount(int value) { roomsCount = value; }
-    public int getArea() { return area; }
-    public void setArea(int value) { area = value; }
+    public double getArea() { return area; }
+    public void setArea(double value) { area = value; }
 
     public Flat()
     {
@@ -23,13 +23,13 @@ public class Flat implements Space, Serializable
         area = DEFAULT_AREA;
     }
 
-    public Flat(int area)
+    public Flat(double area)
     {
         roomsCount = DEFAULT_ROOMS_COUNT;
         this.area = area;
     }
 
-    public Flat(int roomsCount, int area)
+    public Flat(int roomsCount, double area)
     {
         this.roomsCount = roomsCount;
         this.area = area;
