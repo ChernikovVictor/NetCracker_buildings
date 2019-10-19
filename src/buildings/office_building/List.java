@@ -11,6 +11,11 @@ public class List implements Serializable
 {
     private Node head;
 
+    public List(){}
+
+    // получить начало списка
+    public Node getHead() { return head; }
+
     // конструктор по колличеству этажей
     public List(int count)
     {
@@ -247,5 +252,23 @@ public class List implements Serializable
             }
         }
         return spaces;
+    }
+
+    @Override
+    public String toString()
+    {
+        if (head == null)
+            return "";
+        StringBuffer result = new StringBuffer(", " + head.floor.toString());
+        int count = 1;
+        Node currentNode = head.next;
+        while (currentNode != head)
+        {
+            result.append(", " + currentNode.floor.toString());
+            currentNode = currentNode.next;
+            count++;
+        }
+        result.insert(0, count);
+        return result.toString();
     }
 }

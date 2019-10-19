@@ -11,6 +11,12 @@ public class SimplyList implements Serializable
     private SimplyNode head;
     public SimplyList(){}
 
+    // получить начало списка
+    public SimplyNode getHead()
+    {
+        return head;
+    }
+
     // конструктор по колличеству офисов
     public SimplyList(int count)
     {
@@ -240,5 +246,23 @@ public class SimplyList implements Serializable
                 result = currentNode.space;
         }
         return result;
+    }
+
+    @Override
+    public String toString()
+    {
+        if (head == null)
+            return "";
+        StringBuffer result = new StringBuffer(", " + head.space.toString());
+        int count = 1;
+        SimplyNode currentNode = head.next;
+        while (currentNode != head)
+        {
+            result.append(", " + currentNode.space.toString());
+            currentNode = currentNode.next;
+            count++;
+        }
+        result.insert(0, count);
+        return result.toString();
     }
 }

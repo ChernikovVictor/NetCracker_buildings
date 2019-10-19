@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args)
     {
-        task4();
+        task5();
     }
 
     private static void task2()
@@ -257,5 +257,57 @@ public class Main {
             out.flush();
         }
         catch (IOException e) { System.err.println(e.getMessage()); }
+    }
+
+    private static void task5()
+    {
+        // проверка методов toString()
+        System.out.println("toString():");
+        Floor floor1 = new DwellingFloor(new Flat(1, 100), new Flat(2, 200));
+        Floor floor2 = new OfficeFloor(new Office(3,300));
+        Floor floor3 = new DwellingFloor(new Flat(4, 400), new Office(5, 500));
+        Floor floor4 = new OfficeFloor(new Flat(6, 400.5), new Office(5, 500.5));
+        OfficeBuilding ob = new OfficeBuilding(floor1, floor2, floor3, floor4);
+        Dwelling dw = new Dwelling(floor4, floor3, floor2, floor1);
+        System.out.println(ob);
+        System.out.println(dw);
+
+        // проверка методов equals()
+        System.out.println("equals():");
+        Floor floor5 = new DwellingFloor(new Flat(1, 100), new Flat(2, 200));
+        Floor floor6 = new OfficeFloor(new Office(3,300));
+        Floor floor7 = new DwellingFloor(new Flat(4, 400), new Office(5, 500));
+        Floor floor8 = new OfficeFloor(new Flat(6, 400.5), new Office(5, 500.5));
+        Building ob1 = new OfficeBuilding(floor5, floor6, floor7, floor8);
+        Building dw1 = new Dwelling(floor8, floor7, floor6, floor5);
+        System.out.println(ob1.equals(ob));
+        System.out.println(dw1.equals(dw));
+        System.out.println(ob.equals(ob1));
+        System.out.println(dw.equals(dw1));
+
+        // проверка методов hashCode()
+        System.out.println("hashCode():");
+        System.out.println(ob1.hashCode());
+        System.out.println(ob.hashCode());
+        System.out.println(dw1.hashCode());
+        System.out.println((new Dwelling(floor1, floor2, floor2, floor3)).hashCode());
+
+        // проверка методов clone()
+        System.out.println("clone():");
+        try
+        {
+            Building building = new OfficeBuilding(floor1, floor2);
+            System.out.println(building);
+            Building cloneBuilding = (Building)building.clone();
+            System.out.println("клон:\n" + cloneBuilding);
+            cloneBuilding.setSpace(0, new Flat(1000, 1000));
+            System.out.println("поменяли в клоне первое помещение, в оригинале ничего не изменилось:");
+            System.out.println(building);
+            System.out.println(cloneBuilding);
+        }
+        catch (CloneNotSupportedException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 }

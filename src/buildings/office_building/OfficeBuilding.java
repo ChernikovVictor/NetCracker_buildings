@@ -7,9 +7,11 @@ import buildings.interfaces.Space;
 
 import java.io.Serializable;
 
-public class OfficeBuilding implements Building, Serializable
+public class OfficeBuilding implements Building, Serializable, Cloneable
 {
     private List floors;
+
+    public OfficeBuilding(){ floors = new List(); }
 
     // конструктор по колличеству этажей
     public OfficeBuilding(int count)
@@ -195,5 +197,77 @@ public class OfficeBuilding implements Building, Serializable
             this.qSort(spaces, left, j);
         if (i < right)
             this.qSort(spaces, i, right);
+    }
+
+    // получить начало списка
+    public Node getHead() { return floors.getHead(); }
+
+    @Override
+    public String toString()
+    {
+        return "OfficeBuilding (" + floors.toString() + ")";
+    }
+
+    @Override
+    public boolean equals(Object object)
+    {
+        if (this == object)
+            return true;
+        if (!(object instanceof OfficeBuilding))
+            return false;
+        OfficeBuilding building = (OfficeBuilding)object;
+        Node head1 = building.getHead(), head2 = this.getHead();
+        if (head1 == null && head2 == null)
+            return true;
+        if (head1 == null && head2 != null || head1 != null && head2 == null)
+            return false;
+        // поэлементное сравнение
+        if (!head1.floor.equals(head2.floor))
+            return false;
+        Node node1 = head1.next, node2 = head2.next;
+        while(node1 != head1 || node2 != head2)
+        {
+            if (!node1.floor.equals(node2.floor))
+                return false;
+            node1 = node1.next;
+            node2 = node2.next;
+        }
+        if (node1 == head1 && node2 == head2)
+            return true;
+        else
+            return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        Node head = floors.getHead();
+        if (head == null)
+            return 0;
+        int result = head.floor.hashCode(), count = 1;
+        Node currentNode = head.next;
+        while (currentNode != head)
+        {
+            result = result ^ currentNode.floor.hashCode();
+            count++;
+            currentNode = currentNode.next;
+        }
+        return result ^ count;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        int count = this.floorCount();
+        if (count == 0)
+            return new OfficeBuilding();
+        Floor[] result = new Floor[count];
+        Node currentNode = this.getHead();
+        for (int i = 0; i < count; i++)
+        {
+            result[i] = (Floor)currentNode.floor.clone();
+            currentNode = currentNode.next;
+        }
+        return new OfficeBuilding(result);
     }
 }

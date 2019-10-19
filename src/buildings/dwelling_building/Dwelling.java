@@ -6,7 +6,7 @@ import buildings.interfaces.Space;
 
 import java.io.Serializable;
 
-public class Dwelling implements Building, Serializable
+public class Dwelling implements Building, Serializable, Cloneable
 {
     private Floor[] floors;
 
@@ -151,5 +151,53 @@ public class Dwelling implements Building, Serializable
             this.qSort(flats, left, j);
         if (i < right)
             this.qSort(flats, i, right);
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuffer result = new StringBuffer("DwellingFloor (" + floorCount());
+        for(Floor floor : floors)
+            result.append(", " + floor.toString());
+        result.append(')');
+        return result.toString();
+    }
+
+    @Override
+    public boolean equals(Object object)
+    {
+        if (object == this)
+            return true;
+        if (!(object instanceof Dwelling))
+            return false;
+        Dwelling dwelling = (Dwelling)object;
+        if (dwelling.floorCount() != this.floorCount())
+            return false;
+        for (int i = 0; i < dwelling.floorCount(); i++) {
+            if (!this.getFloor(i).equals(dwelling.getFloor(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = floorCount();
+        for (Floor floor : floors)
+            result = result ^ floor.hashCode();
+        return result;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        Floor[] result = new Floor[floorCount()];
+        for (int i = 0; i < floorCount(); i++)
+        {
+            result[i] = (Floor) this.getFloor(i).clone();
+        }
+        return new Dwelling(result);
     }
 }

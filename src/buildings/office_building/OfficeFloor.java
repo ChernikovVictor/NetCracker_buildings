@@ -6,9 +6,11 @@ import buildings.interfaces.Space;
 
 import java.io.Serializable;
 
-public class OfficeFloor implements Floor, Serializable
+public class OfficeFloor implements Floor, Serializable, Cloneable
 {
     private SimplyList spaces;
+
+    public OfficeFloor(){ spaces = new SimplyList(); }
 
     // конструктор по колличеству офисов
     public OfficeFloor(int count)
@@ -119,5 +121,77 @@ public class OfficeFloor implements Floor, Serializable
             System.out.println(e.getMessage());
             throw e;
         }
+    }
+
+    // получить начало списка
+    public SimplyNode getHead()
+    {
+        return spaces.getHead();
+    }
+
+    @Override
+    public String toString()
+    {
+        return "OfficeFloor (" + spaces.toString() + ")";
+    }
+
+    @Override
+    public boolean equals(Object object)
+    {
+        if (this == object)
+            return true;
+        if (!(object instanceof OfficeFloor))
+            return false;
+        OfficeFloor floor = (OfficeFloor)object;
+        SimplyNode head1 = floor.getHead(), head2 = this.getHead();
+        if (head1 == null && head2 == null)
+            return true;
+        if (head1 == null && head2 != null || head1 != null && head2 == null)
+            return false;
+        // поэлементное сравнение
+        if (!head1.space.equals(head2.space))
+            return false;
+        SimplyNode node1 = head1.next, node2 = head2.next;
+        while(node1 != head1 || node2 != head2)
+        {
+            if (!node1.space.equals(node2.space))
+                return false;
+            node1 = node1.next;
+            node2 = node2.next;
+        }
+        return node1 == head1 && node2 == head2;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        SimplyNode head = spaces.getHead();
+        if (head == null)
+            return 0;
+        int result = head.space.hashCode(), count = 1;
+        SimplyNode currentNode = head.next;
+        while (currentNode != head)
+        {
+            result = result ^ currentNode.space.hashCode();
+            count++;
+            currentNode = currentNode.next;
+        }
+        return result ^ count;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        int count = this.spaceCount();
+        if (count == 0)
+            return new OfficeFloor();
+        Space[] result = new Space[count];
+        SimplyNode currentNode = this.getHead();
+        for (int i = 0; i < count; i++)
+        {
+            result[i] = (Space)currentNode.space.clone();
+            currentNode = currentNode.next;
+        }
+        return new OfficeFloor(result);
     }
 }

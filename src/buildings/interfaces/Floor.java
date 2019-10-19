@@ -1,6 +1,6 @@
 package buildings.interfaces;
 
-public interface Floor
+public interface Floor extends Cloneable
 {
     int spaceCount(); // число помещений на этаже
     double totalSpaceArea();   // общая площадь помещений этажа
@@ -11,4 +11,5 @@ public interface Floor
     void addSpace(int index, Space space);
     void removeSpace(int index);
     Space getBestSpace(); // наибольшее по площади помещение этажа
+    Object clone() throws CloneNotSupportedException;
 }
