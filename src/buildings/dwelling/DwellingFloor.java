@@ -1,26 +1,27 @@
-package buildings.dwelling_building;
+package buildings.dwelling;
 
 import buildings.interfaces.Floor;
 import buildings.interfaces.Space;
 
 import java.io.Serializable;
-import java.util.Formatter;
 
 public class DwellingFloor implements Floor, Serializable, Cloneable
 {
-    private Space[] spaces;
+    protected Space[] spaces;
     public Space[] getSpaceArray()
     {
         return spaces;
     }
 
+    // конструктор по числу квартир
     public DwellingFloor(int flatsCount)
     {
-        spaces = new Flat[flatsCount];
+        spaces = new Space[flatsCount];
         for(int i = 0; i < flatsCount; i++)
             spaces[i] = new Flat();
     }
 
+    // конструктор по массиву помещений
     public DwellingFloor(Space ... spaces)
     {
         this.spaces = spaces;
@@ -56,7 +57,7 @@ public class DwellingFloor implements Floor, Serializable, Cloneable
     public void addSpace(int index, Space space)
     {
         index = index > spaces.length ? spaces.length : index;
-        Space[] buffer = new Flat[spaces.length + 1];
+        Space[] buffer = new Space[spaces.length + 1];
         for(int i = 0; i < index; i++)
             buffer[i] = spaces[i];
         buffer[index] = space;

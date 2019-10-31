@@ -1,8 +1,10 @@
 package buildings;
 
-import buildings.dwelling_building.*;
+import buildings.dwelling.*;
+import buildings.dwelling.hotel.Hotel;
+import buildings.dwelling.hotel.HotelFloor;
 import buildings.interfaces.*;
-import buildings.office_building.*;
+import buildings.office.*;
 import buildings.exceptions.*;
 import java.io.*;
 import java.util.Random;
@@ -11,7 +13,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args)
     {
-        task5();
+        
     }
 
     private static void task2()

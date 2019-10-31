@@ -1,4 +1,4 @@
-package buildings.office_building;
+package buildings.office;
 
 import buildings.exceptions.*;
 import buildings.interfaces.Space;

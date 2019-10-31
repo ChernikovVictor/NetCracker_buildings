@@ -1,6 +1,6 @@
 package buildings;
 
-import buildings.dwelling_building.*;
+import buildings.dwelling.*;
 import buildings.interfaces.*;
 
 import java.io.*;

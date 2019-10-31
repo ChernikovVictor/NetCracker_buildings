@@ -1,4 +1,4 @@
-package buildings.dwelling_building;
+package buildings.dwelling;
 
 import buildings.interfaces.Building;
 import buildings.interfaces.Floor;
@@ -8,8 +8,9 @@ import java.io.Serializable;
 
 public class Dwelling implements Building, Serializable, Cloneable
 {
-    private Floor[] floors;
+    protected Floor[] floors;
 
+    // конструктор по числу этажей и числу квартир на каждом этаже
     public Dwelling(int floorsCount, int ... flatsCount)
     {
         floors = new Floor[floorsCount];
@@ -17,6 +18,7 @@ public class Dwelling implements Building, Serializable, Cloneable
             floors[i] = new DwellingFloor(flatsCount[i]);
     }
 
+    // конструктор по массиву этажей
     public Dwelling(Floor ... floors) { this.floors = floors; }
 
     public int floorCount() { return floors.length; }
@@ -156,7 +158,7 @@ public class Dwelling implements Building, Serializable, Cloneable
     @Override
     public String toString()
     {
-        StringBuffer result = new StringBuffer("DwellingFloor (" + floorCount());
+        StringBuffer result = new StringBuffer("Dwelling (" + floorCount());
         for(Floor floor : floors)
             result.append(", " + floor.toString());
         result.append(')');
