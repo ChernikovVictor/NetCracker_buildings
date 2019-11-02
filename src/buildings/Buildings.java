@@ -11,6 +11,15 @@ import java.util.Scanner;
 
 public class Buildings
 {
+    // текущая порождающая фабрика
+    private static BuildingFactory buildingFactory = new DwellingFactory();
+
+    // изменить текущую порождающую фабрику
+    public static void setBuildingFactory(BuildingFactory bf)
+    {
+        buildingFactory = bf;
+    }
+
     // запись данных о здании в байтовый поток
     public static void outputBuilding(Building building, OutputStream out) throws IOException
     {
@@ -40,13 +49,13 @@ public class Buildings
         for(int i = 0; i < floorCount; i++)
         {
             int spaceCount = input.readInt();
-            floors[i] = new DwellingFloor(spaceCount);
+            floors[i] = buildingFactory.createFloor(spaceCount);
             for(int j = 0; j < spaceCount; j++)
             {
-                floors[i].setSpace(j, new Flat(input.readInt(), input.readDouble()));
+                floors[i].setSpace(j, buildingFactory.createSpace(input.readInt(), input.readDouble()));
             }
         }
-        return new Dwelling(floors);
+        return buildingFactory.createBuilding(floors);
     }
 
     // записать данные о здании в символьный поток
@@ -103,17 +112,17 @@ public class Buildings
         {
             streamTokenizer.nextToken();
             int spaceCount = (int)streamTokenizer.nval;
-            floors[i] = new DwellingFloor(spaceCount);
+            floors[i] = buildingFactory.createFloor(spaceCount);
             for(int j = 0; j < spaceCount; j++)
             {
                 streamTokenizer.nextToken();
                 int roomsCount = (int)streamTokenizer.nval;
                 streamTokenizer.nextToken();
                 double area = streamTokenizer.nval;
-                floors[i].setSpace(j, new Flat(roomsCount, area));
+                floors[i].setSpace(j, buildingFactory.createSpace(roomsCount, area));
             }
         }
-        return new Dwelling(floors);
+        return buildingFactory.createBuilding(floors);
     }
 
     // чтение данных о здании из сивольного потока при помощи Scanner
@@ -124,15 +133,15 @@ public class Buildings
         for(int i = 0; i < floorCount; i++)
         {
             int spaceCount = scanner.nextInt();
-            floors[i] = new DwellingFloor(spaceCount);
+            floors[i] = buildingFactory.createFloor(spaceCount);
             for(int j = 0; j < spaceCount; j++)
             {
                 int roomsCount = scanner.nextInt();
                 double area = scanner.nextDouble();
-                floors[i].setSpace(j, new Flat(roomsCount, area));
+                floors[i].setSpace(j, buildingFactory.createSpace(roomsCount, area));
             }
         }
-        return new Dwelling(floors);
+        return buildingFactory.createBuilding(floors);
     }
 
     // Сериализация здания
@@ -212,4 +221,38 @@ public class Buildings
         if (i < right)
             qSort(objects, i, right, comparator);
     }
+
+    // блок методов создания объектов с помощью текущей порождающей фабрики
+    //
+    public static Space createSpace(double area)
+    {
+        return buildingFactory.createSpace(area);
+    }
+
+    public static Space createSpace(int roomsCount, double area)
+    {
+        return buildingFactory.createSpace(roomsCount, area);
+    }
+
+    public static Floor createFloor(int spacesCount)
+    {
+        return buildingFactory.createFloor(spacesCount);
+    }
+
+    public static Floor createFloor(Space ... spaces)
+    {
+        return buildingFactory.createFloor(spaces);
+    }
+
+    public static Building createBuilding(int floorsCount, int ... spacesCount)
+    {
+        return buildingFactory.createBuilding(floorsCount, spacesCount);
+    }
+
+    public static Building createBuilding(Floor ... floors)
+    {
+        return buildingFactory.createBuilding(floors);
+    }
+    //
+    // конец блока
 }
