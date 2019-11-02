@@ -1,19 +1,22 @@
 package buildings;
 
+import buildings.comparators.FloorTotalAreaComparator;
+import buildings.comparators.SpaceRoomsCountComparator;
 import buildings.dwelling.*;
-import buildings.dwelling.hotel.Hotel;
-import buildings.dwelling.hotel.HotelFloor;
+import buildings.dwelling.hotel.*;
 import buildings.interfaces.*;
 import buildings.office.*;
 import buildings.exceptions.*;
 import java.io.*;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args)
     {
-        
+        task6();
     }
 
     private static void task2()
@@ -311,5 +314,67 @@ public class Main {
         {
             System.out.println(e.getMessage());
         }
+    }
+
+    private static void task6()
+    {
+        System.out.println("Проверка итераторов:\nЖилого этажа:");
+        // проверка итератора по помещениям жилого этажа
+        DwellingFloor dwellingFloor = new DwellingFloor(new Flat(1, 100),
+                new Office(2, 200),
+                new Flat(3, 300));
+        Iterator iterator = dwellingFloor.iterator();
+        while (iterator.hasNext())
+        {
+            System.out.println(iterator.next());
+        }
+
+        // проверка итератора по помещениям офисного этажа
+        System.out.println("------------------------------------\nОфисного этажа:");
+        OfficeFloor officeFloor = new OfficeFloor(new Flat(4, 400),
+                new Office(5, 500),
+                new Flat(6, 600));
+        iterator = officeFloor.iterator();
+        for (Space space : officeFloor)
+        {
+            System.out.println(space);
+        }
+
+        // проверка итератора по этажам жилого здания
+        System.out.println("------------------------------------\nЖилого здания:");
+        Dwelling dwelling = new Dwelling(dwellingFloor, officeFloor);
+        iterator = dwelling.iterator();
+        while (iterator.hasNext())
+        {
+            System.out.println(iterator.next());
+        }
+
+        // проверка итератора по этажам офисного здания
+        System.out.println("------------------------------------\nОфисного здания:");
+        OfficeBuilding officeBuilding = new OfficeBuilding(dwellingFloor, officeFloor);
+        for (Floor floor : officeBuilding)
+        {
+            System.out.println(floor);
+        }
+
+        // проверка компараторов
+        System.out.println("Проверка компараторов:");
+        Space spaces[] = {new Flat( 4, 200), new Office( 2, 100),
+                new Flat( 6, 500), new Office(7, 400)};
+        Floor floors[] = {new DwellingFloor(5), new OfficeFloor(1), new HotelFloor(3),
+                new OfficeFloor(4), new DwellingFloor(6)};
+
+        // сортировка по собственному компаратару
+        Buildings.sortArray(spaces);
+        System.out.println(Arrays.deepToString(spaces));
+        Buildings.sortArray(floors);
+        System.out.println(Arrays.deepToString(floors));
+        System.out.println("------------------------------------------");
+
+        // сортировка по указанному компаратору
+        Buildings.sortArray(spaces, new SpaceRoomsCountComparator());
+        System.out.println(Arrays.deepToString(spaces));
+        Buildings.sortArray(floors, new FloorTotalAreaComparator());
+        System.out.println(Arrays.deepToString(floors));
     }
 }

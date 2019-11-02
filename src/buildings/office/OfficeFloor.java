@@ -5,8 +5,9 @@ import buildings.interfaces.Floor;
 import buildings.interfaces.Space;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
-public class OfficeFloor implements Floor, Serializable, Cloneable
+public class OfficeFloor implements Floor, Serializable, Cloneable, Iterable<Space>
 {
     private SimplyList spaces;
 
@@ -193,5 +194,49 @@ public class OfficeFloor implements Floor, Serializable, Cloneable
             currentNode = currentNode.next;
         }
         return new OfficeFloor(result);
+    }
+
+    // итератор по помещениям на этаже
+    @Override
+    public Iterator<Space> iterator()
+    {
+        return new spaceIterator(this);
+    }
+
+    // класс итератора по помещениям на этаже
+    private class spaceIterator implements Iterator<Space>
+    {
+        private SimplyNode simplyNode;
+        private int index, count;
+
+        public spaceIterator(OfficeFloor officeFloor)
+        {
+            index = -1;
+            count = officeFloor.spaceCount();
+            // simplyNode указывает на последний элемент, т.к. список циклический
+            simplyNode = officeFloor.getHead();
+            for (int i = 0; i < count - 1; i++)
+                simplyNode = simplyNode.next;
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            return index + 1 < count ? true : false;
+        }
+
+        @Override
+        public Space next()
+        {
+            index++;
+            simplyNode = simplyNode.next;
+            return simplyNode.space;
+        }
+    }
+
+    @Override
+    public int compareTo(Floor o)
+    {
+        return this.spaceCount() - o.spaceCount();
     }
 }

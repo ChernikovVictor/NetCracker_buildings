@@ -5,8 +5,9 @@ import buildings.interfaces.Floor;
 import buildings.interfaces.Space;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
-public class Dwelling implements Building, Serializable, Cloneable
+public class Dwelling implements Building, Serializable, Cloneable, Iterable<Floor>
 {
     protected Floor[] floors;
 
@@ -201,5 +202,38 @@ public class Dwelling implements Building, Serializable, Cloneable
             result[i] = (Floor) this.getFloor(i).clone();
         }
         return new Dwelling(result);
+    }
+
+    // итератор по этажам здания
+    @Override
+    public Iterator<Floor> iterator()
+    {
+        return new floorIterator(this);
+    }
+
+    // класс итератора по этажам здания
+    private class floorIterator implements Iterator<Floor>
+    {
+        Dwelling dwelling;
+        int index;
+
+        public floorIterator(Dwelling dwelling)
+        {
+            this.dwelling = dwelling;
+            index = -1;
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            return index + 1 < dwelling.floorCount() ? true : false;
+        }
+
+        @Override
+        public Floor next()
+        {
+            index++;
+            return dwelling.getFloor(index);
+        }
     }
 }

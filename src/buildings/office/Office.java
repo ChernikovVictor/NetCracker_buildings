@@ -4,6 +4,7 @@ import buildings.exceptions.*;
 import buildings.interfaces.Space;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 public class Office implements Space, Serializable, Cloneable
 {
@@ -85,5 +86,13 @@ public class Office implements Space, Serializable, Cloneable
     public Object clone() throws CloneNotSupportedException
     {
         return super.clone();
+    }
+
+    @Override
+    public int compareTo(Space o)
+    {
+        if (Math.abs(this.area - o.getArea()) < 1e-3)
+            return 0;
+        return this.area - o.getArea() > 0 ? 1 : -1;
     }
 }

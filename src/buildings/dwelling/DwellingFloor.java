@@ -4,8 +4,9 @@ import buildings.interfaces.Floor;
 import buildings.interfaces.Space;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
-public class DwellingFloor implements Floor, Serializable, Cloneable
+public class DwellingFloor implements Floor, Serializable, Cloneable, Iterable<Space>
 {
     protected Space[] spaces;
     public Space[] getSpaceArray()
@@ -136,5 +137,43 @@ public class DwellingFloor implements Floor, Serializable, Cloneable
             result.setSpace(i, (Space)(this.getSpace(i)).clone());
         }
         return result;
+    }
+
+    // итератор по помещениям на этаже
+    @Override
+    public Iterator<Space> iterator()
+    {
+        return new spaceIterator(this);
+    }
+
+    // класс итератора по помещениям на этаже
+    private class spaceIterator implements Iterator<Space>
+    {
+        private DwellingFloor dwellingFloor;
+        private int index;
+        public spaceIterator(DwellingFloor dwellingFloor)
+        {
+            this.dwellingFloor = dwellingFloor;
+            index = -1;
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            return index + 1 < dwellingFloor.spaceCount() ? true : false;
+        }
+
+        @Override
+        public Space next()
+        {
+            index++;
+            return dwellingFloor.getSpace(index);
+        }
+    }
+
+    @Override
+    public int compareTo(Floor o)
+    {
+        return this.spaceCount() - o.spaceCount();
     }
 }

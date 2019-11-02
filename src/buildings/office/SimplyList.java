@@ -27,7 +27,7 @@ public class SimplyList implements Serializable
         SimplyNode currentNode = head;
         for (int i = 1; i < count; i++)
         {
-            currentNode.next = new SimplyNode(null, head);
+            currentNode.next = new SimplyNode(new Office(), head);
             currentNode = currentNode.next;
         }
     }

@@ -6,8 +6,9 @@ import buildings.interfaces.Floor;
 import buildings.interfaces.Space;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
-public class OfficeBuilding implements Building, Serializable, Cloneable
+public class OfficeBuilding implements Building, Serializable, Cloneable, Iterable<Floor>
 {
     private List floors;
 
@@ -269,5 +270,42 @@ public class OfficeBuilding implements Building, Serializable, Cloneable
             currentNode = currentNode.next;
         }
         return new OfficeBuilding(result);
+    }
+
+    // итератор по этажам здания
+    @Override
+    public Iterator<Floor> iterator()
+    {
+        return new floorIterator(this);
+    }
+
+    // класс итератора по этажам здания
+    private class floorIterator implements Iterator<Floor>
+    {
+        private Node node;
+        int index, count;
+
+        public floorIterator(OfficeBuilding officeBuilding)
+        {
+            index = -1;
+            count = officeBuilding.floorCount();
+            // Node указывает на последний элемент, т.к. список циклический
+            node = officeBuilding.getHead();
+            for (int i = 0; i < count - 1; i++)
+                node = node.next;
+        }
+        @Override
+        public boolean hasNext()
+        {
+            return index + 1 < count ? true : false;
+        }
+
+        @Override
+        public Floor next()
+        {
+            index++;
+            node = node.next;
+            return node.floor;
+        }
     }
 }

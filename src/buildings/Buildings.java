@@ -4,6 +4,7 @@ import buildings.dwelling.*;
 import buildings.interfaces.*;
 
 import java.io.*;
+import java.util.Comparator;
 import java.util.Formatter;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -146,5 +147,69 @@ public class Buildings
     {
         ObjectInputStream input = new ObjectInputStream(in);
         return (Building)input.readObject();
+    }
+
+    // Параметризованная сортировка без критерия
+    public static <T extends Comparable<T>> void sortArray(T[] objects)
+    {
+        qSort(objects, 0, objects.length - 1);
+    }
+
+    // Параметризованная сортировка с критерием
+    public static <T> void sortArray(T[] objects, Comparator<T> comparator)
+    {
+        qSort(objects, 0, objects.length - 1, comparator);
+    }
+
+    // быстрая сортировка без критерия
+    private static <T extends Comparable<T>> void qSort(T[] objects, int left, int right)
+    {
+        int i = left, j = right;
+        T middle = objects[(i + j) / 2];
+        do
+        {
+            while (objects[i].compareTo(middle) < 0)
+                i++;
+            while (objects[j].compareTo(middle) > 0)
+                j--;
+            if (i <= j)
+            {
+                T buffer = objects[i];
+                objects[i] = objects[j];
+                objects[j] = buffer;
+                i++;
+                j--;
+            }
+        } while (i <= j);
+        if (left < j)
+            qSort(objects, left, j);
+        if (i < right)
+            qSort(objects, i, right);
+    }
+
+    // быстрая сортировка с критерием
+    private static <T> void qSort(T[] objects, int left, int right, Comparator<T> comparator)
+    {
+        int i = left, j = right;
+        T middle = objects[(i + j) / 2];
+        do
+        {
+            while (comparator.compare(objects[i], middle) < 0)
+                i++;
+            while (comparator.compare(objects[j], middle) > 0)
+                j--;
+            if (i <= j)
+            {
+                T buffer = objects[i];
+                objects[i] = objects[j];
+                objects[j] = buffer;
+                i++;
+                j--;
+            }
+        } while (i <= j);
+        if (left < j)
+            qSort(objects, left, j, comparator);
+        if (i < right)
+            qSort(objects, i, right, comparator);
     }
 }
