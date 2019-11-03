@@ -255,4 +255,10 @@ public class Buildings
     }
     //
     // конец блока
+
+    // Обернуть объект Floor декоратором, безопасным для многопоточности
+    public static Floor synchronizedFloor(Floor floor)
+    {
+        return new SynchronizedFloor(floor);
+    }
 }

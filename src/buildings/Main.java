@@ -1,12 +1,13 @@
 package buildings;
 
-import buildings.comparators.FloorTotalAreaComparator;
-import buildings.comparators.SpaceRoomsCountComparator;
+import buildings.comparators.*;
 import buildings.dwelling.*;
 import buildings.dwelling.hotel.*;
 import buildings.interfaces.*;
 import buildings.office.*;
 import buildings.exceptions.*;
+import buildings.threads.*;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -16,7 +17,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args)
     {
-
+        task7();
     }
 
     private static void task2()
@@ -376,5 +377,30 @@ public class Main {
         System.out.println(Arrays.deepToString(spaces));
         Buildings.sortArray(floors, new FloorTotalAreaComparator());
         System.out.println(Arrays.deepToString(floors));
+    }
+
+    private static void task7() {
+    /* Проверка нитей Repair и Cleaner
+    Floor floor = new OfficeFloor(100);
+    Thread t1 = new Cleaner(floor);
+    Thread t2 = new Repairer(floor);
+    t1.start();
+    t2.start();
+    try
+    {
+        Thread.sleep(30);
+        t2.interrupt();
+    }
+    catch (InterruptedException e){
+        System.out.println("the thread has interrupted");
+    }*/
+
+        /* проверка синхронизации работы потоков с помощью семафора
+        Floor floor = new OfficeFloor(100);
+        MySemaphore semaphore = new MySemaphore();
+        Thread t1 = new Thread(new SequentalCleaner(floor, semaphore));
+        Thread t2 = new Thread(new SequentalRepairer(floor, semaphore));
+        t1.start();
+        t2.start();*/
     }
 }
