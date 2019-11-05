@@ -6,7 +6,6 @@ import buildings.dwelling.hotel.*;
 import buildings.interfaces.*;
 import buildings.office.*;
 import buildings.exceptions.*;
-import buildings.threads.*;
 
 import java.io.*;
 import java.util.Arrays;
@@ -17,7 +16,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args)
     {
-        task7();
+
     }
 
     private static void task2()
@@ -75,7 +74,7 @@ public class Main {
         }
     }
 
-    private static void task3Exceptions()
+    private static void task3()
     {
         Random rnd = new Random();
         int floorsCount = 3;
@@ -160,16 +159,14 @@ public class Main {
             officeBuilding.getSpace(0).setArea(-100);
         }
         catch (InvalidSpaceAreaException e) { System.out.println("Ошибка: Некорректное значение площади"); }
-    }
 
-    private static void task3Interfaces()
-    {
+        // проверка интерфейсов
         System.out.println("Проверка interface:\nСоздадим два здания (офисное и жилое) с двумя этажами\n" +
                 "(жилым и офисным) с двумя помещениями (офисом и квартирой)");
         DwellingFloor dwellingFloor = new DwellingFloor(new Flat(), new Office());
         OfficeFloor officeFloor = new OfficeFloor(new Office(3, 300), new Flat(5, 100));
         Dwelling dwelling = new Dwelling(officeFloor, dwellingFloor);
-        OfficeBuilding officeBuilding = new OfficeBuilding(dwellingFloor, officeFloor);
+        officeBuilding = new OfficeBuilding(dwellingFloor, officeFloor);
 
         System.out.println("Помещения жилого дома:");
         Space[] spaces = dwelling.getSpaces();
