@@ -1,7 +1,5 @@
 package buildings.interfaces;
 
-import java.util.Iterator;
-
 public interface Building extends Cloneable, Iterable<Floor>
 {
     int floorCount(); // кол-во этажей в здании
@@ -18,5 +16,4 @@ public interface Building extends Cloneable, Iterable<Floor>
     Space getBestSpace(); // наибольее по площади помещение здания
     Space[] sortedSpaceArray(); // получить массив помещений, сортированный по убыванию площадей
     Object clone() throws CloneNotSupportedException;
-    Iterator<Floor> iterator();
 }

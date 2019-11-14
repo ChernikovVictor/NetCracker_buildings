@@ -5,7 +5,7 @@ import buildings.interfaces.Space;
 // семафор для огранизации порядка работы потоков SequentalRepair и SequentalCleaner
 public class MySemaphore
 {
-    int count; // count == 0 => можно ремонтировать; count == 1 => можно убираться
+    private int count; // count == 0 => можно ремонтировать; count == 1 => можно убираться
     public MySemaphore(){}
 
     // увеличить count (отремонтировать помещение)

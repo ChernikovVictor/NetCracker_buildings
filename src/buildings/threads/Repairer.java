@@ -5,7 +5,7 @@ import buildings.interfaces.*;
 // независимый поток (без семафора)
 public class Repairer extends Thread
 {
-    Floor floor;
+    private Floor floor;
 
     public Repairer(Floor floor)
     {

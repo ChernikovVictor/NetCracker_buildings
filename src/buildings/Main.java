@@ -6,6 +6,7 @@ import buildings.dwelling.hotel.*;
 import buildings.interfaces.*;
 import buildings.office.*;
 import buildings.exceptions.*;
+import buildings.threads.*;
 
 import java.io.*;
 import java.util.Arrays;
@@ -376,21 +377,22 @@ public class Main {
         System.out.println(Arrays.deepToString(floors));
     }
 
-    private static void task7() {
-    /* Проверка нитей Repair и Cleaner
-    Floor floor = new OfficeFloor(100);
-    Thread t1 = new Cleaner(floor);
-    Thread t2 = new Repairer(floor);
-    t1.start();
-    t2.start();
-    try
+    private static void task7()
     {
-        Thread.sleep(30);
-        t2.interrupt();
-    }
-    catch (InterruptedException e){
-        System.out.println("the thread has interrupted");
-    }*/
+        /* Проверка нитей Repair и Cleaner
+        Floor floor = new OfficeFloor(100);
+        Thread t1 = new Cleaner(floor);
+        Thread t2 = new Repairer(floor);
+        t1.start();
+        t2.start();
+        try
+        {
+           Thread.sleep(30);
+           t2.interrupt();
+        }
+        catch (InterruptedException e){
+            System.out.println("the thread has interrupted");
+        }*/
 
         /* проверка синхронизации работы потоков с помощью семафора
         Floor floor = new OfficeFloor(100);
@@ -399,5 +401,31 @@ public class Main {
         Thread t2 = new Thread(new SequentalRepairer(floor, semaphore));
         t1.start();
         t2.start();*/
+    }
+
+    private static void task8() {
+        /* метод заполняет информацией файлы со зданиями и их типами */
+        Dwelling dwelling = new Dwelling(1, 1);
+        Hotel hotel = new Hotel(2, 2, 2);
+        OfficeBuilding officeBuilding = new OfficeBuilding(1, 2);
+
+        try (Writer out1 = new FileWriter("BUILDINGS.txt");
+             Writer out2 = new FileWriter("TYPES.txt")) {
+            fillFiles(out1, out2, dwelling);
+            fillFiles(out1, out2, officeBuilding);
+            fillFiles(out1, out2, hotel);
+            fillFiles(out1, out2, dwelling);
+            fillFiles(out1, out2, hotel);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void fillFiles(Writer out1, Writer out2, Building building) throws IOException {
+        /* метод для task8() */
+        Buildings.writeBuilding(building, out1);
+        out1.write("\n");
+        out2.write(building.getClass().getSimpleName());
+        out2.write("\n");
     }
 }

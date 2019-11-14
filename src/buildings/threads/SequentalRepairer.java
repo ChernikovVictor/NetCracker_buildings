@@ -5,8 +5,8 @@ import buildings.interfaces.Floor;
 // поток с семафором
 public class SequentalRepairer implements Runnable
 {
-    Floor floor;
-    MySemaphore semaphore;
+    private Floor floor;
+    private MySemaphore semaphore;
 
     public SequentalRepairer(Floor floor, MySemaphore semaphore)
     {

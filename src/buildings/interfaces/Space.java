@@ -1,7 +1,5 @@
 package buildings.interfaces;
 
-import java.util.Comparator;
-
 public interface Space extends Cloneable, Comparable<Space>
 {
     int getRoomsCount();
@@ -11,7 +9,4 @@ public interface Space extends Cloneable, Comparable<Space>
     void setArea(double value);
 
     Object clone() throws CloneNotSupportedException;
-
-    int compareTo(Space o);
-
 }
