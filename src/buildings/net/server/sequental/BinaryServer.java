@@ -1,7 +1,6 @@
 package buildings.net.server.sequental;
 
 import buildings.Buildings;
-import buildings.dwelling.Dwelling;
 import buildings.dwelling.DwellingFactory;
 import buildings.dwelling.hotel.Hotel;
 import buildings.dwelling.hotel.HotelFactory;
@@ -57,7 +56,7 @@ public class BinaryServer {
 
                         String answer = "";
                         try {
-                            answer = String.format("%.3f", Cost(building));
+                            answer = String.format("%.3f", cost(building));
                         } catch (BuildingUnderArrestException e) {
                             answer = "Arrested";
                         } finally {
@@ -82,7 +81,7 @@ public class BinaryServer {
     }
 
     // Оценить стоимость здания с проверкой, арестовано ли оно
-    private static double Cost(Building building) throws BuildingUnderArrestException {
+    private static double cost(Building building) throws BuildingUnderArrestException {
         if (isUnderArrest())
             throw new BuildingUnderArrestException();
         if (building instanceof OfficeBuilding) {

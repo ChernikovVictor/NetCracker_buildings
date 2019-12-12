@@ -39,12 +39,12 @@ public class SerialServerThread extends Thread {
 
                     String answer;
                     try {
-                        answer = String.format("%.3f", Cost(building));
+                        answer = String.format("%.3f", cost(building));
                         out.writeObject(answer);
                         System.out.println("Ответ на запрос клиента: " + answer);
                         out.flush();
                     } catch (BuildingUnderArrestException e) {
-                        out.writeObject(new BuildingUnderArrestException());
+                        out.writeObject(e);
                         System.out.println("Ответ на запрос клиента: Arrested");
                         out.flush();
                     }
@@ -63,7 +63,7 @@ public class SerialServerThread extends Thread {
     }
 
     // Оценить стоимость здания с проверкой, арестовано ли оно
-    private static double Cost(Building building) throws BuildingUnderArrestException {
+    private static double cost(Building building) throws BuildingUnderArrestException {
         if (isUnderArrest())
             throw new BuildingUnderArrestException();
         if (building instanceof OfficeBuilding) {
