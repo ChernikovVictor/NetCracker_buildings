@@ -2,9 +2,8 @@ package buildings.threads;
 
 import buildings.interfaces.*;
 
-// независимый поток (без семафора)
-public class Repairer extends Thread
-{
+/* независимый поток (без семафора) */
+public class Repairer extends Thread {
     private Floor floor;
 
     public Repairer(Floor floor)
@@ -13,11 +12,9 @@ public class Repairer extends Thread
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         int i = 0, spaceCount = floor.spaceCount();
-        while (!isInterrupted() && i < spaceCount)
-        {
+        while (!isInterrupted() && i < spaceCount) {
             System.out.println(String.format("Repairing space number %d with total area %.1f square metres",
                     i, floor.getSpace(i).getArea()));
             i++;

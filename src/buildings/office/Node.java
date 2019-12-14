@@ -4,7 +4,7 @@ import buildings.interfaces.Floor;
 
 import java.io.Serializable;
 
-// Узел для двусвязного списка офисных этажей
+/* Узел для двусвязного списка офисных этажей */
 public class Node implements Serializable
 {
     public Floor floor;
@@ -17,7 +17,7 @@ public class Node implements Serializable
         this.floor = floor;
     }
 
-    // конструктор по колличеству офисов на этаже
+    /* конструктор по колличеству офисов на этаже */
     public Node(int count)
     {
         floor = new OfficeFloor(count);

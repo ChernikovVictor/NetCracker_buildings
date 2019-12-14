@@ -8,6 +8,7 @@ import buildings.office.*;
 import buildings.exceptions.*;
 import buildings.threads.*;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -20,8 +21,7 @@ public class Main {
 
     }
 
-    private static void task2()
-    {
+    private static void task2() {
         Random rnd = new Random();
         int floorsCount = 3;
         int flatsCount = 3;
@@ -75,8 +75,7 @@ public class Main {
         }
     }
 
-    private static void task3()
-    {
+    private static void task3() {
         Random rnd = new Random();
         int floorsCount = 3;
         int officeCount = 3;
@@ -180,8 +179,7 @@ public class Main {
             System.out.println(space);
     }
 
-    private static void task4()
-    {
+    private static void task4() {
         // Создадим три здания, выведем их в System.out
         Floor floor1 = new DwellingFloor(new Flat(1, 100), new Flat(2, 200));
         Floor floor2 = new OfficeFloor(new Office(3,300));
@@ -263,8 +261,7 @@ public class Main {
         catch (IOException e) { System.err.println(e.getMessage()); }
     }
 
-    private static void task5()
-    {
+    private static void task5() {
         // проверка методов toString()
         System.out.println("toString():");
         Floor floor1 = new DwellingFloor(new Flat(1, 100), new Flat(2, 200));
@@ -315,8 +312,7 @@ public class Main {
         }
     }
 
-    private static void task6()
-    {
+    private static void task6() {
         System.out.println("Проверка итераторов:\nЖилого этажа:");
         // проверка итератора по помещениям жилого этажа
         DwellingFloor dwellingFloor = new DwellingFloor(new Flat(1, 100),
@@ -358,9 +354,9 @@ public class Main {
 
         // проверка компараторов
         System.out.println("Проверка компараторов:");
-        Space spaces[] = {new Flat( 4, 200), new Office( 2, 100),
+        Space[] spaces = {new Flat( 4, 200), new Office( 2, 100),
                 new Flat( 6, 500), new Office(7, 400)};
-        Floor floors[] = {new DwellingFloor(5), new OfficeFloor(1), new HotelFloor(3),
+        Floor[] floors = {new DwellingFloor(5), new OfficeFloor(1), new HotelFloor(3),
                 new OfficeFloor(4), new DwellingFloor(6)};
 
         // сортировка по собственному компаратару
@@ -377,8 +373,7 @@ public class Main {
         System.out.println(Arrays.deepToString(floors));
     }
 
-    private static void task7()
-    {
+    private static void task7() {
         /* Проверка нитей Repair и Cleaner
         Floor floor = new OfficeFloor(100);
         Thread t1 = new Cleaner(floor);
@@ -427,5 +422,46 @@ public class Main {
         out1.write("\n");
         out2.write(building.getClass().getSimpleName());
         out2.write("\n");
+    }
+
+    private static void task9() {
+        new SwingFrame(); }
+
+    private static void task10() {
+        Class buildingClass = Hotel.class;
+        Class floorClass = OfficeFloor.class;
+        Class spaceClass = Flat.class;
+        try(FileInputStream in1 = new FileInputStream("file.bin");
+            FileReader in2 = new FileReader("file.txt"))
+        {
+            Building building1 = Buildings.inputBuilding(in1, buildingClass, floorClass, spaceClass);
+            Building building2 = Buildings.readBuilding(in2, buildingClass, floorClass, spaceClass);
+            System.out.println(building1);
+            System.out.println(building2);
+        }
+        catch (IOException e) { System.err.println(e.getMessage()); }
+    }
+
+    private static void task11() {
+        Space[] spaces = {new Flat( 4, 200), new Office( 2, 100),
+                new Flat( 6, 500), new Office(7, 400)};
+        Floor[] floors = {new DwellingFloor(5), new OfficeFloor(1), new HotelFloor(3),
+                new OfficeFloor(4), new DwellingFloor(6)};
+
+        System.out.println("Исходные массивы:");
+        System.out.println(Arrays.deepToString(spaces));
+        System.out.println(Arrays.deepToString(floors));
+
+        System.out.println("Сортируем помещения с использованием лямбда функции");
+        Buildings.sortArray(spaces, (space1, space2) -> space2.getRoomsCount() - space1.getRoomsCount());
+        System.out.println(Arrays.deepToString(spaces));
+
+        System.out.println("Сортируем этажи с использованием лямбда функции");
+        Buildings.sortArray(floors, (floor1, floor2) -> {
+            if (Math.abs(floor1.totalSpaceArea() - floor2.totalSpaceArea()) < 1e-3)
+                return 0;
+            return floor2.totalSpaceArea() - floor1.totalSpaceArea() > 0 ? 1 : -1;
+        });
+        System.out.println(Arrays.deepToString(floors));
     }
 }

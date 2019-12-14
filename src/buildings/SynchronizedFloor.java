@@ -4,13 +4,12 @@ import buildings.interfaces.*;
 
 import java.util.Iterator;
 
-// Декоратор объекта Floor, безопасный с точки зрения многопоточности
+/* Декоратор объекта Floor, безопасный с точки зрения многопоточности */
 public class SynchronizedFloor implements Floor
 {
-    Floor floor; // объект, оборачиваемый декоратором
+    private Floor floor; // объект, оборачиваемый декоратором
 
-    public SynchronizedFloor(Floor floor)
-    {
+    public SynchronizedFloor(Floor floor) {
         this.floor = floor;
     }
 

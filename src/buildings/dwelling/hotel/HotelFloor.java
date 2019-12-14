@@ -8,16 +8,14 @@ public class HotelFloor extends DwellingFloor
     private final int DEFAULT_STARS = 1;
     private int stars;
 
-    // конструктор по колличеству помещений
-    public HotelFloor(int count)
-    {
+    /* конструктор по колличеству помещений */
+    public HotelFloor(int count) {
         super(count);
         stars = DEFAULT_STARS;
     }
 
-    // конструктор по массиву помещений
-    public HotelFloor(Space ... spaces)
-    {
+    /* конструктор по массиву помещений */
+    public HotelFloor(Space ... spaces) {
         super(spaces);
         stars = DEFAULT_STARS;
     }
@@ -26,18 +24,16 @@ public class HotelFloor extends DwellingFloor
     public void setStars(int value) { stars = value >= 1 && value <= 5 ? value : DEFAULT_STARS; }
 
     @Override
-    public String toString()
-    {
-        StringBuffer result = new StringBuffer(String.format(("HotelFloor (%d, %d"), stars, spaceCount()));
+    public String toString() {
+        StringBuilder result = new StringBuilder(String.format(("HotelFloor (%d, %d"), stars, spaceCount()));
         for(Space space : spaces)
-            result.append(", " + space.toString());
+            result.append(", ").append(space.toString());
         result.append(')');
         return result.toString();
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         if (object == this)
             return true;
         if (!(object instanceof HotelFloor))

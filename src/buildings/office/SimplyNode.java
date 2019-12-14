@@ -4,7 +4,7 @@ import buildings.interfaces.Space;
 
 import java.io.Serializable;
 
-// Узел для односвязного списка офисов
+/* Узел для односвязного списка офисов */
 public class SimplyNode implements Serializable
 {
     public Space space;
@@ -20,8 +20,7 @@ public class SimplyNode implements Serializable
         this(space, null);
     }
 
-    public SimplyNode(Space space, SimplyNode next)
-    {
+    public SimplyNode(Space space, SimplyNode next) {
         this.space = space;
         this.next = next;
     }

@@ -2,7 +2,7 @@ package buildings.dwelling;
 
 import buildings.interfaces.*;
 
-// фабрика для создания жилых зданий, этажей, помещений
+/* фабрика для создания жилых зданий, этажей, помещений */
 public class DwellingFactory implements BuildingFactory
 {
     @Override
@@ -30,9 +30,8 @@ public class DwellingFactory implements BuildingFactory
     }
 
     @Override
-    public Building createBuilding(int floorsCount, int... spacesCount)
-    {
-        return new Dwelling(floorsCount, spacesCount);
+    public Building createBuilding(int... spacesCount) {
+        return new Dwelling(spacesCount);
     }
 
     @Override

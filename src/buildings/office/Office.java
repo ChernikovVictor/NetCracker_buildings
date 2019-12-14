@@ -4,9 +4,8 @@ import buildings.exceptions.*;
 import buildings.interfaces.Space;
 
 import java.io.Serializable;
-import java.util.Comparator;
 
-public class Office implements Space, Serializable, Cloneable
+public class Office implements Space, Serializable
 {
     private final int DEFAULT_ROOMS_COUNT = 1;
     private final double DEFAULT_AREA = 250.0;
@@ -15,36 +14,31 @@ public class Office implements Space, Serializable, Cloneable
     private double area;
 
     public int getRoomsCount() { return roomsCount; }
-    public void setRoomsCount (int value)
-    {
+    public void setRoomsCount (int value) {
         if (value <= 0)
             throw new InvalidRoomsCountException();
         roomsCount = value;
     }
     public double getArea() { return area; }
-    public void setArea(double value)
-    {
+    public void setArea(double value) {
         if (value <= 0)
             throw new InvalidSpaceAreaException();
         area = value;
     }
 
-    public Office()
-    {
+    public Office() {
         roomsCount = DEFAULT_ROOMS_COUNT;
         area = DEFAULT_AREA;
     }
 
-    public Office(double area)
-    {
+    public Office(double area) {
         if (area <= 0)
             throw new InvalidSpaceAreaException();
         roomsCount = DEFAULT_ROOMS_COUNT;
         this.area = area;
     }
 
-    public Office(int roomsCount, double area)
-    {
+    public Office(int roomsCount, double area) {
         if (roomsCount <= 0)
             throw new InvalidRoomsCountException();
         if (area <= 0)
@@ -60,8 +54,7 @@ public class Office implements Space, Serializable, Cloneable
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         if (object == this)
             return true;
         if (!(object instanceof Office))
@@ -71,9 +64,8 @@ public class Office implements Space, Serializable, Cloneable
     }
 
     @Override
-    public int hashCode()
-    {
-        int result = new Integer(roomsCount);
+    public int hashCode() {
+        int result = roomsCount;
         String binaryArea = Long.toBinaryString(Double.doubleToLongBits(area));
         String firstFourBytes = binaryArea.substring(0, 31), secondFourBytes = binaryArea.substring(32);
         int k1 = Integer.parseInt(firstFourBytes, 2), k2 = Integer.parseInt(secondFourBytes, 2);
@@ -83,14 +75,12 @@ public class Office implements Space, Serializable, Cloneable
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException
-    {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
     @Override
-    public int compareTo(Space o)
-    {
+    public int compareTo(Space o) {
         if (Math.abs(this.area - o.getArea()) < 1e-3)
             return 0;
         return this.area - o.getArea() > 0 ? 1 : -1;

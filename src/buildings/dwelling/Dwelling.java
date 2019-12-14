@@ -1,25 +1,22 @@
 package buildings.dwelling;
 
-import buildings.interfaces.Building;
-import buildings.interfaces.Floor;
-import buildings.interfaces.Space;
+import buildings.interfaces.*;
 
 import java.io.Serializable;
 import java.util.Iterator;
 
-public class Dwelling implements Building, Serializable, Cloneable, Iterable<Floor>
+public class Dwelling implements Building, Serializable
 {
     protected Floor[] floors;
 
-    // конструктор по числу этажей и числу квартир на каждом этаже
-    public Dwelling(int floorsCount, int ... flatsCount)
-    {
-        floors = new Floor[floorsCount];
-        for(int i = 0; i < floorsCount; i++)
+    /* конструктор по числу квартир на каждом этаже */
+    public Dwelling(int ... flatsCount) {
+        floors = new Floor[flatsCount.length];
+        for(int i = 0; i < flatsCount.length; i++)
             floors[i] = new DwellingFloor(flatsCount[i]);
     }
 
-    // конструктор по массиву этажей
+    /* конструктор по массиву этажей */
     public Dwelling(Floor ... floors) { this.floors = floors; }
 
     public int floorCount() { return floors.length; }
@@ -27,77 +24,65 @@ public class Dwelling implements Building, Serializable, Cloneable, Iterable<Flo
     public Floor getFloor(int index) { return floors[index]; }
     public void setFloor(int index, Floor floor) { floors[index] = floor; }
 
-    // число всех квартир дома
-    public int spaceCount()
-    {
+    /* число всех квартир дома */
+    public int spaceCount() {
         int result = 0;
         for(Floor floor : floors)
             result += floor.spaceCount();
         return result;
     }
 
-    // общая площадь всех квартир дома
-    public double totalSpaceArea()
-    {
+    /* общая площадь всех квартир дома */
+    public double totalSpaceArea() {
         int result = 0;
         for(Floor floor : floors)
             result += floor.totalSpaceArea();
         return result;
     }
 
-    // общее число комнат в доме
-    public int totalRoomsCount()
-    {
+    /* общее число комнат в доме */
+    public int totalRoomsCount() {
         int result = 0;
-        for(Floor floor : floors)
-        {
+        for(Floor floor : floors) {
             result += floor.totalRoomsCount();
         }
         return result;
     }
 
-    // Получить номер этажа, на котором находится квартира с номером indexFlat для дома, и номер этой квартиры на этаже
-    private int[] getIndexFloorAndFlat(int indexFlat)
-    {
+    /* Получить номер этажа, на котором находится квартира с номером indexFlat для дома, и номер этой квартиры на этаже */
+    private int[] getIndexFloorAndFlat(int indexFlat) {
         int indexFloor = 0;
-        while (indexFlat >= floors[indexFloor].spaceCount())
-        {
+        while (indexFlat >= floors[indexFloor].spaceCount()) {
             indexFlat -= floors[indexFloor].spaceCount();
             indexFloor++;
         }
         return new int[] {indexFloor, indexFlat};
     }
 
-    public Space getSpace(int index)
-    {
+    public Space getSpace(int index) {
         int[] indexFloorAndFlat = getIndexFloorAndFlat(index);
         return floors[indexFloorAndFlat[0]].getSpace(indexFloorAndFlat[1]);
     }
 
-    public void setSpace(int index, Space space)
-    {
+    public void setSpace(int index, Space space) {
         int[] indexFloorAndFlat = getIndexFloorAndFlat(index);
         floors[indexFloorAndFlat[0]].setSpace(indexFloorAndFlat[1], space);
     }
 
-    public void addSpace(int index, Space space)
-    {
+    public void addSpace(int index, Space space) {
         int[] indexFloorAndFlat = getIndexFloorAndFlat(index);
         floors[indexFloorAndFlat[0]].addSpace(indexFloorAndFlat[1], space);
     }
 
-    public void removeSpace(int index)
-    {
+    public void removeSpace(int index) {
         int[] indexFloorAndFlat = getIndexFloorAndFlat(index);
         floors[indexFloorAndFlat[0]].removeSpace(indexFloorAndFlat[1]);
     }
 
-    // Наибольшая по площади квартира в доме
-    public Space getBestSpace()
-    {
+    /* Наибольшая по площади квартира в доме */
+    public Space getBestSpace() {
         Space result = floors[0].getBestSpace();
-        for(int i = 1; i < floors.length; i++)
-        {
+        for(int i = 1; i < floors.length; i++) {
             Space space = floors[i].getBestSpace();
             if (result.getArea() < space.getArea())
                 result = space;
@@ -105,44 +90,37 @@ public class Dwelling implements Building, Serializable, Cloneable, Iterable<Flo
         return result;
     }
 
-    // получение массива всех квартир в доме
-    public Space[] getSpaces()
-    {
+    /* получить массива всех квартир в доме */
+    public Space[] getSpaces() {
         Space[] spaces = new Space[spaceCount()];
         int index = 0;
-        for(Floor floor : floors)
-        {
+        for(Floor floor : floors) {
             Space[] flatsOnFloor = floor.getSpaceArray();
-            for(int i = 0; i < flatsOnFloor.length; i++)
-            {
-                spaces[index] = flatsOnFloor[i];
+            for (Space space : flatsOnFloor) {
+                spaces[index] = space;
                 index++;
             }
         }
         return spaces;
     }
 
-    // получить отсортированный по убыванию площадей массив квартир
-    public Space[] sortedSpaceArray()
-    {
+    /* получить отсортированный по убыванию площадей массив квартир */
+    public Space[] sortedSpaceArray() {
         Space[] spaces = getSpaces();
         qSort(spaces, 0, spaces.length - 1);
         return spaces;
     }
 
-    // быстрая сортировка
-    private void qSort(Space[] flats, int left, int right)
-    {
+    /* быстрая сортировка */
+    private void qSort(Space[] flats, int left, int right) {
         int i = left, j = right;
         double middle = flats[(i + j) / 2].getArea();
-        do
-        {
+        do {
             while (flats[i].getArea() > middle)
                 i++;
             while (flats[j].getArea() < middle)
                 j--;
-            if (i <= j)
-            {
+            if (i <= j) {
                 Space buffer = flats[i];
                 flats[i] = flats[j];
                 flats[j] = buffer;
@@ -157,18 +135,16 @@ public class Dwelling implements Building, Serializable, Cloneable, Iterable<Flo
     }
 
     @Override
-    public String toString()
-    {
-        StringBuffer result = new StringBuffer("Dwelling (" + floorCount());
+    public String toString() {
+        StringBuilder result = new StringBuilder("Dwelling (" + floorCount());
         for(Floor floor : floors)
-            result.append(", " + floor.toString());
+            result.append(", ").append(floor.toString());
         result.append(')');
         return result.toString();
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         if (object == this)
             return true;
         if (!(object instanceof Dwelling))
@@ -185,8 +161,7 @@ public class Dwelling implements Building, Serializable, Cloneable, Iterable<Flo
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int result = floorCount();
         for (Floor floor : floors)
             result = result ^ floor.hashCode();
@@ -194,44 +169,37 @@ public class Dwelling implements Building, Serializable, Cloneable, Iterable<Flo
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException
-    {
+    public Object clone() throws CloneNotSupportedException {
         Floor[] result = new Floor[floorCount()];
-        for (int i = 0; i < floorCount(); i++)
-        {
+        for (int i = 0; i < floorCount(); i++) {
             result[i] = (Floor) this.getFloor(i).clone();
         }
         return new Dwelling(result);
     }
 
-    // итератор по этажам здания
+    /* итератор по этажам здания */
     @Override
-    public Iterator<Floor> iterator()
-    {
+    public Iterator<Floor> iterator() {
         return new floorIterator(this);
     }
 
-    // класс итератора по этажам здания
-    private class floorIterator implements Iterator<Floor>
-    {
+    /* класс итератора по этажам здания */
+    private class floorIterator implements Iterator<Floor> {
         Dwelling dwelling;
         int index;
 
-        public floorIterator(Dwelling dwelling)
-        {
+        public floorIterator(Dwelling dwelling) {
             this.dwelling = dwelling;
             index = -1;
         }
 
         @Override
-        public boolean hasNext()
-        {
-            return index + 1 < dwelling.floorCount() ? true : false;
+        public boolean hasNext() {
+            return index + 1 < dwelling.floorCount();
         }
 
         @Override
-        public Floor next()
-        {
+        public Floor next() {
             index++;
             return dwelling.getFloor(index);
         }

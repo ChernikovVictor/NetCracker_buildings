@@ -2,9 +2,8 @@ package buildings.office;
 
 import buildings.interfaces.*;
 
-// фабрика для создания офисных зданий, этажей, помещений
-public class OfficeFactory implements BuildingFactory
-{
+/* фабрика для создания офисных зданий, этажей, помещений */
+public class OfficeFactory implements BuildingFactory {
     @Override
     public Space createSpace(double area)
     {
@@ -24,20 +23,19 @@ public class OfficeFactory implements BuildingFactory
     }
 
     @Override
-    public Floor createFloor(Space... spaces)
+    public Floor createFloor(Space ... spaces)
     {
         return new OfficeFloor(spaces);
     }
 
     @Override
-    public Building createBuilding(int floorsCount, int... spacesCount)
+    public Building createBuilding(int ... spacesCount)
     {
         return new OfficeBuilding(spacesCount);
     }
 
     @Override
-    public Building createBuilding(Floor... floors)
-    {
+    public Building createBuilding(Floor ... floors) {
         return new OfficeBuilding(floors);
     }
 }

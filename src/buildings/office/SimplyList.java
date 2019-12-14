@@ -5,43 +5,36 @@ import buildings.interfaces.Space;
 
 import java.io.Serializable;
 
-// односвязный циклический список офисов
+/* односвязный циклический список офисов */
 public class SimplyList implements Serializable
 {
     private SimplyNode head;
     public SimplyList(){}
 
-    // получить начало списка
-    public SimplyNode getHead()
-    {
+    /* получить начало списка */
+    public SimplyNode getHead() {
         return head;
     }
 
-    // конструктор по колличеству офисов
-    public SimplyList(int count)
-    {
+    /* конструктор по колличеству офисов */
+    public SimplyList(int count) {
         if (count <= 0)
             throw new SpaceIndexOutOfBoundsException();
         head = new SimplyNode();
         head.next = head;
         SimplyNode currentNode = head;
-        for (int i = 1; i < count; i++)
-        {
+        for (int i = 1; i < count; i++) {
             currentNode.next = new SimplyNode(new Office(), head);
             currentNode = currentNode.next;
         }
     }
 
-    // добавить в конец списка
-    public void add(Office office)
-    {
-        if (head == null)
-        {
+    /* добавить в конец списка */
+    public void add(Office office) {
+        if (head == null) {
             head = new SimplyNode(office);
             head.next = head;
-        }
-        else
-        {
+        } else {
             SimplyNode currentNode = head;
             while(currentNode.next != head)
                 currentNode = currentNode.next;
@@ -50,33 +43,26 @@ public class SimplyList implements Serializable
         }
     }
 
-    // добавить несколько элементов в конец списка
-    public void addRange(Space... spaces)
-    {
-        if (spaces == null)
-        {
+    /* добавить несколько элементов в конец списка */
+    public void addRange(Space ... spaces) {
+        if (spaces == null) {
             head = null;
             return;
         }
-        if (head == null)
-        {
+        if (head == null) {
             SimplyNode currentNode = new SimplyNode();
             head = currentNode;
-            for(Space space : spaces)
-            {
+            for(Space space : spaces) {
                 currentNode.next = new SimplyNode(space);
                 currentNode = currentNode.next;
             }
             currentNode.next = head.next;
             head = head.next;
-        }
-        else
-        {
+        } else {
             SimplyNode currentNode = head;
             while(currentNode.next != head)
                 currentNode = currentNode.next;
-            for(Space space : spaces)
-            {
+            for(Space space : spaces) {
                 currentNode.next = new SimplyNode(space);
                 currentNode = currentNode.next;
             }
@@ -84,62 +70,54 @@ public class SimplyList implements Serializable
         }
     }
 
-    // длина списка (колличество офисов)
-    public int length()
-    {
+    /* длина списка (колличество офисов) */
+    public int length() {
         if (head == null)
             return 0;
         int count = 1;
         SimplyNode currentNode = head;
-        while (currentNode.next != head)
-        {
+        while (currentNode.next != head) {
             count++;
             currentNode = currentNode.next;
         }
         return count;
     }
 
-    // общая площадь офисов
-    public double totalOfficesArea()
-    {
+    /* общая площадь офисов */
+    public double totalOfficesArea() {
         if (head == null)
             return 0;
         SimplyNode currentNode = head;
         double area = head.space.getArea();
-        while (currentNode.next != head)
-        {
+        while (currentNode.next != head) {
             currentNode = currentNode.next;
             area += currentNode.space.getArea();
         }
         return area;
     }
 
-    // общее колличество комнат этажа
-    public int totalOfficesRooms()
-    {
+    /* общее колличество комнат этажа */
+    public int totalOfficesRooms() {
         if (head == null)
             return 0;
         SimplyNode currentNode = head;
         int count = head.space.getRoomsCount();
-        while (currentNode.next != head)
-        {
+        while (currentNode.next != head) {
             currentNode = currentNode.next;
             count += currentNode.space.getRoomsCount();
         }
         return count;
     }
 
-    // получить массив офисов этажа
-    public Space[] convertToArray()
-    {
+    /* получить массив офисов этажа */
+    public Space[] convertToArray() {
         if (head == null)
             return null;
         Space[] spaces = new Space[length()];
         SimplyNode currentNode = head;
         int i = 0;
         spaces[i] = head.space;
-        while (currentNode.next != head)
-        {
+        while (currentNode.next != head) {
             currentNode = currentNode.next;
             i++;
             spaces[i] = currentNode.space;
@@ -147,57 +125,48 @@ public class SimplyList implements Serializable
         return spaces;
     }
 
-    // получение офиса по номеру на этаже
-    public SimplyNode getNode(int index)
-    {
+    /* получение офиса по номеру на этаже */
+    public SimplyNode getNode(int index) {
         if (index < 0 || index >= this.length())
             throw new SpaceIndexOutOfBoundsException();
         int i = 0;
         SimplyNode currentNode = head;
-        while (i < index)
-        {
+        while (i < index) {
             currentNode = currentNode.next;
             i++;
         }
         return currentNode;
     }
 
-    // изменить офис по номеру в списке
-    public void setNode(int index, Space space)
-    {
+    /* изменить офис по номеру в списке */
+    public void setNode(int index, Space space) {
         if (index < 0 || index >= this.length())
             throw new SpaceIndexOutOfBoundsException();
         int i = 0;
         SimplyNode currentNode = head;
-        while (i < index)
-        {
+        while (i < index) {
             currentNode = currentNode.next;
             i++;
         }
         currentNode.space = space;
     }
 
-    // добавить офис по номеру в списке
-    public void addNode(int index, Space space)
-    {
+    /* добавить офис по номеру в списке */
+    public void addNode(int index, Space space) {
         if (index < 0 || index >= this.length())
             throw new SpaceIndexOutOfBoundsException();
         SimplyNode node = new SimplyNode(space);
-        if (index == 0)
-        {
+        if (index == 0) {
             SimplyNode currentNode = head.next;
             while (currentNode.next != head)
                 currentNode = currentNode.next;
             currentNode.next = node;
             node.next = head;
             head = node;
-        }
-        else
-        {
+        } else {
             int i = 1;
             SimplyNode currentNode = head.next;
-            while (i < index - 1)
-            {
+            while (i < index - 1) {
                 currentNode = currentNode.next;
                 i++;
             }
@@ -206,25 +175,20 @@ public class SimplyList implements Serializable
         }
     }
 
-    // удаление узла по номеру на этаже
-    public void removeNode(int index)
-    {
+    /* удаление узла по номеру на этаже */
+    public void removeNode(int index) {
         if (index < 0 || index >= this.length())
             throw new SpaceIndexOutOfBoundsException();
-        if (index == 0)
-        {
+        if (index == 0) {
             SimplyNode currentNode = head.next;
             while (currentNode.next != head)
                 currentNode = currentNode.next;
             currentNode.next = head.next;
             head = head.next;
-        }
-        else
-        {
+        } else {
             int i = 1;
             SimplyNode currentNode = head.next;
-            while (i < index - 1)
-            {
+            while (i < index - 1) {
                 currentNode = currentNode.next;
                 i++;
             }
@@ -232,15 +196,13 @@ public class SimplyList implements Serializable
         }
     }
 
-    // наибольший по площади офис этажа
-    public Space maxAreaOffice()
-    {
+    /* наибольший по площади офис этажа */
+    public Space maxAreaOffice() {
         if (head == null)
             throw new SpaceIndexOutOfBoundsException("Список офисов пуст");
         Space result = head.space;
         SimplyNode currentNode = head;
-        while(currentNode.next != head)
-        {
+        while(currentNode.next != head) {
             currentNode = currentNode.next;
             if (currentNode.space.getArea() > result.getArea())
                 result = currentNode.space;
@@ -249,16 +211,14 @@ public class SimplyList implements Serializable
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         if (head == null)
             return "";
-        StringBuffer result = new StringBuffer(", " + head.space.toString());
+        StringBuilder result = new StringBuilder(", " + head.space.toString());
         int count = 1;
         SimplyNode currentNode = head.next;
-        while (currentNode != head)
-        {
-            result.append(", " + currentNode.space.toString());
+        while (currentNode != head) {
+            result.append(", ").append(currentNode.space.toString());
             currentNode = currentNode.next;
             count++;
         }

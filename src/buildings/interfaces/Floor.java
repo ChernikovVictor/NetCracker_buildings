@@ -11,6 +11,5 @@ public interface Floor extends Cloneable, Iterable<Space>, Comparable<Floor>
     void addSpace(int index, Space space);
     void removeSpace(int index);
     Space getBestSpace(); // наибольшее по площади помещение этажа
-
     Object clone() throws CloneNotSupportedException;
 }

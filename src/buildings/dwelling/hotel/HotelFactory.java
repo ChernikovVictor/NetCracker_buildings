@@ -3,7 +3,7 @@ package buildings.dwelling.hotel;
 import buildings.dwelling.Flat;
 import buildings.interfaces.*;
 
-// фабрика для создания отельных зданий, этажей, помещений
+/* фабрика для создания отельных зданий, этажей, помещений */
 public class HotelFactory implements BuildingFactory
 {
     @Override
@@ -25,19 +25,19 @@ public class HotelFactory implements BuildingFactory
     }
 
     @Override
-    public Floor createFloor(Space... spaces)
+    public Floor createFloor(Space ... spaces)
     {
         return new HotelFloor(spaces);
     }
 
     @Override
-    public Building createBuilding(int floorsCount, int... spacesCount)
+    public Building createBuilding(int ... spacesCount)
     {
-        return new Hotel(floorsCount, spacesCount);
+        return new Hotel(spacesCount);
     }
 
     @Override
-    public Building createBuilding(Floor... floors)
+    public Building createBuilding(Floor ... floors)
     {
         return new Hotel(floors);
     }

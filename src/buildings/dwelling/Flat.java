@@ -4,7 +4,7 @@ import buildings.interfaces.Space;
 
 import java.io.Serializable;
 
-public class Flat implements Space, Serializable, Cloneable
+public class Flat implements Space, Serializable
 {
     private final int DEFAULT_ROOMS_COUNT = 2;
     private final double DEFAULT_AREA = 50.0;
@@ -17,20 +17,17 @@ public class Flat implements Space, Serializable, Cloneable
     public double getArea() { return area; }
     public void setArea(double value) { area = value; }
 
-    public Flat()
-    {
+    public Flat() {
         roomsCount = DEFAULT_ROOMS_COUNT;
         area = DEFAULT_AREA;
     }
 
-    public Flat(double area)
-    {
+    public Flat(double area) {
         roomsCount = DEFAULT_ROOMS_COUNT;
         this.area = area;
     }
 
-    public Flat(int roomsCount, double area)
-    {
+    public Flat(int roomsCount, double area) {
         this.roomsCount = roomsCount;
         this.area = area;
     }
@@ -42,19 +39,17 @@ public class Flat implements Space, Serializable, Cloneable
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         if (object == this)
             return true;
         if (!(object instanceof Flat))
             return false;
-        Flat flat = (Flat)object;
+        Flat flat = (Flat) object;
         return (this.roomsCount == flat.roomsCount) && (Math.abs(this.area - flat.area) < 1e-3);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int result = roomsCount;
         String binaryArea = Long.toBinaryString(Double.doubleToLongBits(area));
         String firstFourBytes = binaryArea.substring(0, 31), secondFourBytes = binaryArea.substring(32);
@@ -65,14 +60,12 @@ public class Flat implements Space, Serializable, Cloneable
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException
-    {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
     @Override
-    public int compareTo(Space o)
-    {
+    public int compareTo(Space o) {
         if (Math.abs(this.area - o.getArea()) < 1e-3)
             return 0;
         return this.area - o.getArea() > 0 ? 1 : -1;

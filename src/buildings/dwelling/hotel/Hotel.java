@@ -6,34 +6,31 @@ import buildings.interfaces.*;
 
 public class Hotel extends Dwelling
 {
-    // конструктор по числу этажей и числу квартир на каждом этаже
-    public Hotel(int floorsCount, int ... flatsCount)
+    /* конструктор по числу этажей и числу квартир на каждом этаже */
+    public Hotel(int ... flatsCount)
     {
-        super(floorsCount, flatsCount);
+        super(flatsCount);
     }
 
-    // конструктор по массиву этажей
+    /* конструктор по массиву этажей */
     public Hotel(Floor ... floors) { super(floors); }
 
-    // кол-во зведз отеля (максимум среди кол-ва звезд этажей)
-    public int getStars()
-    {
+    /* кол-во зведз отеля (максимум среди кол-ва звезд этажей) */
+    public int getStars() {
         int stars = 0;
-        for (int i = 0; i < floorCount(); i++)
-        {
+        for (int i = 0; i < floorCount(); i++) {
             Floor floor = getFloor(i);
-            if (floor instanceof HotelFloor && ((HotelFloor) floor).getStars() > stars)
-            {
+            if (floor instanceof HotelFloor && ((HotelFloor) floor).getStars() > stars) {
                 stars = ((HotelFloor) floor).getStars();
             }
         }
         return stars;
     }
 
-    // лучший номер - максимум (площадь * коэффициент) по всем номерам
+    /* лучший номер - максимум (площадь * коэффициент) по всем номерам */
     @Override
     public Space getBestSpace() {
-        double coeff[] = {0, 0.25, 0.5, 1, 1.25, 1.5};
+        double[] coeff = {0, 0.25, 0.5, 1, 1.25, 1.5};
         Space result = new Flat(1);
         double bestResult = 0;
         for (int i = 0; i < floorCount(); i++) {
@@ -51,18 +48,16 @@ public class Hotel extends Dwelling
     }
 
     @Override
-    public String toString()
-    {
-        StringBuffer result = new StringBuffer(String.format("Hotel (%d, %d", getStars(), floorCount()));
+    public String toString() {
+        StringBuilder result = new StringBuilder(String.format("Hotel (%d, %d", getStars(), floorCount()));
         for(Floor floor : floors)
-            result.append(", " + floor.toString());
+            result.append(", ").append(floor.toString());
         result.append(')');
         return result.toString();
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         if (object == this)
             return true;
         if (!(object instanceof Hotel))

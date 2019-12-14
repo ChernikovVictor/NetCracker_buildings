@@ -2,24 +2,21 @@ package buildings.threads;
 
 import buildings.interfaces.Floor;
 
-// поток с семафором
+/* поток с семафором */
 public class SequentalCleaner implements Runnable
 {
     private Floor floor;
     private MySemaphore semaphore;
 
-    public SequentalCleaner(Floor floor, MySemaphore semaphore)
-    {
+    public SequentalCleaner(Floor floor, MySemaphore semaphore) {
         this.floor = floor;
         this.semaphore = semaphore;
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         int index = 0, spaceCount = floor.spaceCount();
-        while (!Thread.currentThread().isInterrupted() && index < spaceCount)
-        {
+        while (!Thread.currentThread().isInterrupted() && index < spaceCount) {
             semaphore.down(index, floor.getSpace(index));
             index++;
         }

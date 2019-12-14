@@ -2,7 +2,7 @@ package buildings.threads;
 
 import buildings.interfaces.*;
 
-// независимый поток (без семафора)
+/* независимый поток (без семафора) */
 public class Cleaner extends Thread
 {
     private Floor floor;
@@ -13,11 +13,9 @@ public class Cleaner extends Thread
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         int i = 0, spaceCount = floor.spaceCount();
-        while (!isInterrupted() && i < spaceCount)
-        {
+        while (!isInterrupted() && i < spaceCount) {
             System.out.println(String.format("Cleaning space number %d with total area %.1f square metres",
                     i, floor.getSpace(i).getArea()));
             i++;
